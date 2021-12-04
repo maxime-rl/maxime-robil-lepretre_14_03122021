@@ -1,4 +1,4 @@
-import React from 'react'
+import React from "react";
 import { Link } from "react-router-dom";
 import { NavLink } from "react-router-dom";
 
@@ -8,12 +8,16 @@ export default function NavBar() {
       <Link to="/">HRnet</Link>
       <ul>
         <li>
-          <NavLink activeClassName="active-link" to="/">Home</NavLink>
+          <NavLink activeClassName="active-link" to="/">
+            Home
+          </NavLink>
         </li>
         <li>
-          <NavLink activeClassName="active-link" to="/employee-list">Current employees</NavLink>
+          <NavLink activeClassName="active-link" to="/employee-list">
+            Current employees
+          </NavLink>
         </li>
       </ul>
     </nav>
-  )
+  );
 }

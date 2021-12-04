@@ -1,9 +1,15 @@
-import React from 'react'
+import React from "react";
+import { EmployeeCreationForm } from "../../components";
 
 export default function EmployeeCreationPage() {
   return (
-    <div>
-      <h1>Employee Creation Page</h1>
-    </div>
-  )
+    <>
+      <header>
+        <h1>Employee Creation Page</h1>
+      </header>
+      <main>
+        <EmployeeCreationForm />
+      </main>
+    </>
+  );
 }
