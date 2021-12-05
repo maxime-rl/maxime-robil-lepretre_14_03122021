@@ -1,5 +1,6 @@
 import React from "react";
 import { useState } from "react";
+import { saveToLocalStorage } from "../../utils/localStorage/saveToLocalStorage";
 
 export default function EmployeeCreationForm() {
   const [formValues, setFormValues] = useState({
@@ -20,8 +21,8 @@ export default function EmployeeCreationForm() {
 
   const handleSubmit = (e) => {
     e.preventDefault();
+    saveToLocalStorage(formValues);
     alert("Employee created !");
-    console.log(formValues);
   };
 
   return (
