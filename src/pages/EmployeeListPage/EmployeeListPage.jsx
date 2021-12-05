@@ -1,5 +1,7 @@
 import React from "react";
 import { EmployeeListTable } from "../../components";
+import { headOfTableOfEmployeeList } from "../../utils/data";
+import { loadToLocalStorage } from "../../utils/localStorage/loadToLocalStorage";
 
 export default function EmployeeListPage() {
   return (
@@ -14,7 +16,10 @@ export default function EmployeeListPage() {
             <input type="text" name="keyword" placeholder="search" />
           </label>
         </form>
-        <EmployeeListTable />
+        <EmployeeListTable
+          columns={headOfTableOfEmployeeList}
+          data={loadToLocalStorage}
+        />
       </main>
     </>
   );
