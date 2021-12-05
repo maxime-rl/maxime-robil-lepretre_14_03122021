@@ -35,7 +35,7 @@ const GlobalStyle = createGlobalStyle`
     color: inherit;
   }
 
-  .active-link {
+  .active {
     text-decoration: underline;
   }
 `;
