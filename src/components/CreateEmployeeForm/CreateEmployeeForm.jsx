@@ -1,6 +1,8 @@
 import React from "react";
 import { useState } from "react";
 import { saveToLocalStorage } from "../../utils/localStorage/saveToLocalStorage";
+import { states } from "../../utils/data/states";
+import { departments } from "../../utils/data/departments";
 import * as S from "./CreateEmployeeForm.styled";
 
 export default function CreateEmployeeForm() {
@@ -11,9 +13,9 @@ export default function CreateEmployeeForm() {
     startDate: "",
     street: "",
     city: "",
-    state: "",
+    state: "AL",
     zipCode: "",
-    department: "",
+    department: "Sales",
   });
 
   const handleInputChange = (e) => {
@@ -101,9 +103,11 @@ export default function CreateEmployeeForm() {
               onChange={handleInputChange}
               required
             >
-              <option value="Alabama">Alabama</option>
-              <option value="Alaska">Alaska</option>
-              <option value="American Samoa">American Samoa</option>
+              {states.map((state) => (
+                <option key={state.value} value={state.value}>
+                  {state.name}
+                </option>
+              ))}
             </S.Select>
           </label>
           <label>
@@ -125,9 +129,11 @@ export default function CreateEmployeeForm() {
             onChange={handleInputChange}
             required
           >
-            <option value="Sales">Sales</option>
-            <option value="Marketing">Marketing</option>
-            <option value="Engineering">Engineering</option>
+            {departments.map((department) => (
+              <option key={department.value} value={department.value}>
+                {department.name}
+              </option>
+            ))}
           </S.Select>
         </label>
         <S.ButtonSubmit type="submit">Save</S.ButtonSubmit>
