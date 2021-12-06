@@ -1,25 +1,34 @@
-import React, { useEffect } from "react";
-import { useTable, useSortBy } from "react-table";
-import * as S from "./EmployeeListTable.styled";
+import React from "react";
+import { useTable, useSortBy, useGlobalFilter } from "react-table";
+import GlobalFilter from "../GlobalFilter/GlobalFilter";
+import * as S from "./CurrentEmployeesTable.styled";
 
-export default function EmployeeListTable({ columns, data }) {
-  const { getTableProps, getTableBodyProps, headerGroups, rows, prepareRow } =
-    useTable(
-      {
-        columns,
-        data,
-      },
-      useSortBy
-    );
-
-  useEffect(() => {
-    document.title = "list of employees";
-  }, []);
+export default function CurrentEmployeesTable({ columns, data }) {
+  const {
+    getTableProps,
+    getTableBodyProps,
+    headerGroups,
+    rows,
+    prepareRow,
+    state,
+    setGlobalFilter,
+  } = useTable(
+    {
+      columns,
+      data,
+    },
+    useGlobalFilter,
+    useSortBy
+  );
 
   const firstPageRows = rows.slice(0, 10);
 
   return (
-    <>
+    <S.Section>
+      <GlobalFilter
+        filterValue={state.globalFilter}
+        setFilter={setGlobalFilter}
+      />
       <S.Table {...getTableProps()}>
         <thead>
           {headerGroups.map((headerGroup) => (
@@ -58,8 +67,10 @@ export default function EmployeeListTable({ columns, data }) {
         </tbody>
       </S.Table>
       <br />
-      <div>Showing the first 10 results of {rows.length} rows</div>
-    </>
+      <S.ResultsIndicator>
+        Showing the first 10 results of {rows.length} rows
+      </S.ResultsIndicator>
+    </S.Section>
   );
 }
 

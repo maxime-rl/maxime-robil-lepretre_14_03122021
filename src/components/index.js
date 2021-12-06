@@ -1,3 +1,3 @@
 export { default as NavBar } from "./NavBar/NavBar";
-export { default as EmployeeCreationForm } from "./EmployeeCreationForm/EmployeeCreationForm";
-export { default as EmployeeListTable } from "./EmployeeListTable/EmployeeListTable";
+export { default as CreateEmployeeForm } from "./CreateEmployeeForm/CreateEmployeeForm";
+export { default as CurrentEmployeesTable } from "./table/CurrentEmployeesTable/CurrentEmployeesTable";

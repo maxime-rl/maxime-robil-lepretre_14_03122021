@@ -1,9 +1,9 @@
 import React from "react";
 import { useState } from "react";
 import { saveToLocalStorage } from "../../utils/localStorage/saveToLocalStorage";
-import * as S from "./EmployeeCreationForm.styled";
+import * as S from "./CreateEmployeeForm.styled";
 
-export default function EmployeeCreationForm() {
+export default function CreateEmployeeForm() {
   const [formValues, setFormValues] = useState({
     firstName: "",
     lastName: "",

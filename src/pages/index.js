@@ -1,3 +1,3 @@
-export { default as EmployeeCreationPage } from "./EmployeeCreationPage/EmployeeCreationPage";
-export { default as EmployeeListPage } from "./EmployeeListPage/EmployeeListPage";
+export { default as CreateEmployeePage } from "./CreateEmployeePage/CreateEmployeePage";
+export { default as CurrentEmployeesPage } from "./CurrentEmployeesPage/CurrentEmployeesPage";
 export { default as ErrorPage } from "./ErrorPage/ErrorPage";

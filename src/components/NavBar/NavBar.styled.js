@@ -5,7 +5,8 @@ import { styleVariables } from "../../utils/styles/variables";
 export const Nav = styled.nav`
   display: flex;
   justify-content: space-between;
-  padding: 2rem ${styleVariables.wrapper} 2rem ${styleVariables.wrapper};
+  padding: 2rem ${styleVariables.measureBasic} 2rem
+    ${styleVariables.measureBasic};
   background: ${styleVariables.colorWhite};
   box-shadow: ${styleVariables.navShadow};
 `;

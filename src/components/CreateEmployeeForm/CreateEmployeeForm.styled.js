@@ -2,8 +2,8 @@ import styled from "styled-components";
 import { styleVariables } from "../../utils/styles/variables";
 
 export const Form = styled.form`
-  margin: ${styleVariables.wrapperLarger} auto;
-  padding: ${styleVariables.wrapper};
+  margin: ${styleVariables.measureLarger} auto;
+  padding: ${styleVariables.measureBasic};
   max-width: 45rem;
   box-shadow: ${styleVariables.boxShadow};
   border-radius: ${styleVariables.radius};
@@ -12,7 +12,7 @@ export const Form = styled.form`
 export const P = styled.p`
   font-size: 1.4rem;
   font-weight: 500;
-  margin: ${styleVariables.wrapper} 0 1rem 0;
+  margin: ${styleVariables.measureBasic} 0 1rem 0;
 `;
 
 export const Input = styled.input`
@@ -22,7 +22,7 @@ export const Input = styled.input`
 
 export const DateWrapper = styled.div`
   display: flex;
-  gap: ${styleVariables.wrapper};
+  gap: ${styleVariables.measureBasic};
 
   label {
     flex: 0.5;
@@ -59,7 +59,7 @@ export const Fieldset = styled.fieldset`
 `;
 
 export const Legend = styled.legend`
-  margin: ${styleVariables.wrapperLarger} 0 0 0;
+  margin: ${styleVariables.measureLarger} 0 0 0;
   font-size: 1.8rem;
   font-weight: 500;
 `;
@@ -71,7 +71,7 @@ export const Select = styled.select`
 `;
 
 export const ButtonSubmit = styled.button`
-  margin: ${styleVariables.wrapper} 0;
+  margin: ${styleVariables.measureBasic} 0;
   width: 100%;
   height: 3.3rem;
   cursor: pointer;
