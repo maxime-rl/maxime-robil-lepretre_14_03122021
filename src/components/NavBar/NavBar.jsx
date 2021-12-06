@@ -1,23 +1,23 @@
 import React from "react";
-import { Link } from "react-router-dom";
+import * as S from "./NavBar.styled";
 import { NavLink } from "react-router-dom";
 
 export default function NavBar() {
   return (
-    <nav>
-      <Link to="/">HRnet</Link>
-      <ul>
+    <S.Nav>
+      <S.HomeLink to="/">HRnet</S.HomeLink>
+      <S.NavLinkList>
         <li>
-          <NavLink activeClassName="active-link" to="/">
+          <NavLink activeclassname="active" to="/">
             Home
           </NavLink>
         </li>
         <li>
-          <NavLink activeClassName="active-link" to="/employee-list">
+          <NavLink activeclassname="active" to="/employee-list">
             Current employees
           </NavLink>
         </li>
-      </ul>
-    </nav>
+      </S.NavLinkList>
+    </S.Nav>
   );
 }
