@@ -1,6 +1,6 @@
 import React from "react";
 import { useTable, useSortBy, useGlobalFilter } from "react-table";
-import GlobalFilter from "../GlobalFilter/GlobalFilter";
+import GlobalFilter from "./utils/GlobalFilter/GlobalFilter";
 import * as S from "./CurrentEmployeesTable.styled";
 
 export default function CurrentEmployeesTable({ columns, data }) {

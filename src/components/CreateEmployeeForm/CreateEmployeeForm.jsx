@@ -11,7 +11,7 @@ export default function CreateEmployeeForm() {
     startDate: "",
     street: "",
     city: "",
-    locationState: "",
+    state: "",
     zipCode: "",
     department: "",
   });
@@ -96,8 +96,8 @@ export default function CreateEmployeeForm() {
           <label>
             <S.P>State</S.P>
             <S.Select
-              name="locationState"
-              value={formValues.locationState}
+              name="state"
+              value={formValues.state}
               onChange={handleInputChange}
               required
             >

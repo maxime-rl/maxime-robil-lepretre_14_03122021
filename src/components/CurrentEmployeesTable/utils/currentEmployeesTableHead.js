@@ -1,4 +1,4 @@
-export const headOfTableOfEmployeeList = [
+export const currentEmployeesTableHead = [
   {
     Header: "First Name",
     accessor: "firstName",

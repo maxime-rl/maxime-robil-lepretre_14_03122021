@@ -1,9 +1,10 @@
 import React, { useEffect } from "react";
 import { CurrentEmployeesTable } from "../../components";
-import { headOfTableOfEmployeeList } from "../../utils/data";
-import { loadToLocalStorage } from "../../utils/localStorage/loadToLocalStorage";
+import { currentEmployeesTableHead } from "../../components/CurrentEmployeesTable/utils/currentEmployeesTableHead";
 
 export default function CurrentEmployeesPage() {
+  const currentEmployees = JSON.parse(localStorage.getItem("session"));
+
   useEffect(() => {
     document.title = "Current employees";
   }, []);
@@ -15,8 +16,8 @@ export default function CurrentEmployeesPage() {
       </header>
       <main>
         <CurrentEmployeesTable
-          columns={headOfTableOfEmployeeList}
-          data={loadToLocalStorage}
+          columns={currentEmployeesTableHead}
+          data={currentEmployees}
         />
       </main>
     </>
