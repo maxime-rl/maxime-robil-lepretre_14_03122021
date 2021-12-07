@@ -1,11 +1,13 @@
 import React from "react";
 import { useState } from "react";
 import { saveToLocalStorage } from "../../utils/localStorage/saveToLocalStorage";
+import { Modal } from "react-modal-mrl";
 import { states } from "../../utils/data/states";
 import { departments } from "../../utils/data/departments";
 import * as S from "./CreateEmployeeForm.styled";
 
 export default function CreateEmployeeForm() {
+  const [modal, setModal] = useState(false);
   const [formValues, setFormValues] = useState({
     firstName: "",
     lastName: "",
@@ -24,8 +26,23 @@ export default function CreateEmployeeForm() {
 
   const handleSubmit = (e) => {
     e.preventDefault();
+    setModal(!modal);
     saveToLocalStorage(formValues);
-    alert("Employee created !");
+  };
+
+  const triggerModal = () => {
+    setModal(!modal);
+    setFormValues({
+      firstName: "",
+      lastName: "",
+      dateOfBirth: "",
+      startDate: "",
+      street: "",
+      city: "",
+      state: "AL",
+      zipCode: "",
+      department: "Sales",
+    });
   };
 
   return (
@@ -136,6 +153,12 @@ export default function CreateEmployeeForm() {
         </S.LabelDepartment>
         <S.ButtonSubmit type="submit">Save</S.ButtonSubmit>
       </S.Form>
+      <Modal show={modal} close={triggerModal} title="Employee save">
+        <p>
+          {formValues.firstName} {formValues.lastName}
+        </p>
+        <p>Department: {formValues.department}</p>
+      </Modal>
     </>
   );
 }
