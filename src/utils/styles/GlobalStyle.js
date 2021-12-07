@@ -47,8 +47,29 @@ const GlobalStyle = createGlobalStyle`
     color: inherit;
   }
 
+  input {
+    height: 2.8rem;
+  }
+
+  button,
+  select {
+    cursor: pointer;
+  }
+
   .active {
     text-decoration: underline;
+  }
+
+  .sr-only {
+    border: 0;
+    clip: rect(1px, 1px, 1px, 1px);
+    height: 1px;
+    margin: -1px !important;
+    overflow: hidden;
+    padding: 0;
+    position: absolute;
+    width: 1px;
+    white-space: nowrap;
   }
 `;
 

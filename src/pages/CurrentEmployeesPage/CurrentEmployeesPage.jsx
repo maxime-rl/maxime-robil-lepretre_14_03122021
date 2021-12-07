@@ -3,7 +3,9 @@ import { CurrentEmployeesTable } from "../../components";
 import { currentEmployeesTableHead } from "../../components/CurrentEmployeesTable/utils/currentEmployeesTableHead";
 
 export default function CurrentEmployeesPage() {
-  const currentEmployees = JSON.parse(localStorage.getItem("session"));
+  const currentEmployees = JSON.parse(
+    localStorage.getItem("HRnetEmployeesSession")
+  );
 
   useEffect(() => {
     document.title = "Current employees";

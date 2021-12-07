@@ -2,11 +2,38 @@ import styled from "styled-components";
 import { styleVariables } from "../../utils/styles/variables";
 
 export const Form = styled.form`
-  margin: ${styleVariables.measureLarger} auto;
+  margin: ${styleVariables.measureLarger} ${styleVariables.measureBasic};
   padding: ${styleVariables.measureBasic};
-  max-width: 45rem;
+  max-width: 40rem;
   box-shadow: ${styleVariables.boxShadow};
   border-radius: ${styleVariables.radius};
+
+  @media (min-width: 478px) {
+    margin: ${styleVariables.measureLarger} auto;
+  }
+
+  @media (min-width: 891px) {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    grid-template-areas:
+      " . address-title"
+      "first-name street"
+      "last-name city"
+      "date-wrapper state"
+      "department zipe-code"
+      "button-submit button-submit";
+    max-width: 83rem;
+    gap: 1.5rem;
+  }
+`;
+
+export const Input = styled.input`
+  width: 98%;
+`;
+
+export const Select = styled.select`
+  width: 100%;
+  height: 3.3rem;
 `;
 
 export const P = styled.p`
@@ -15,14 +42,23 @@ export const P = styled.p`
   margin: ${styleVariables.measureBasic} 0 1rem 0;
 `;
 
-export const Input = styled.input`
-  width: 98%;
-  height: 2.8rem;
+export const LabelFirstName = styled.label`
+  grid-area: first-name;
+`;
+
+export const LabelLastName = styled.label`
+  grid-area: last-name;
 `;
 
 export const DateWrapper = styled.div`
+  grid-area: date-wrapper;
   display: flex;
-  gap: ${styleVariables.measureBasic};
+  flex-direction: column;
+
+  @media (min-width: 500px) {
+    flex-direction: row;
+    gap: ${styleVariables.measureBasic};
+  }
 
   label {
     flex: 0.5;
@@ -30,49 +66,49 @@ export const DateWrapper = styled.div`
 
   input {
     padding: 0;
-  }
-`;
-
-export const Fieldset = styled.fieldset`
-  position: relative;
-  margin-bottom: 2.5rem;
-  padding: 0;
-  border: none;
-
-  &::after {
-    position: absolute;
-    top: -7px;
-    right: 0;
-    width: 82%;
-    height: 1px;
-    background: gray;
-    opacity: 0.3;
+    width: 99%;
+    height: 3rem;
 
     @media (min-width: 500px) {
-      content: "";
+      width: 98%;
     }
   }
+`;
 
-  input {
-    width: 98.5%;
+export const AddressTitle = styled.p`
+  grid-area: address-title;
+  font-size: 1.8rem;
+  font-weight: 500;
+
+  @media (min-width: 891px) {
+    margin-bottom: -1rem;
+    margin-top: 1rem;
   }
 `;
 
-export const Legend = styled.legend`
-  margin: ${styleVariables.measureLarger} 0 0 0;
-  font-size: 1.8rem;
-  font-weight: 500;
+export const LabelStreet = styled.label`
+  grid-area: street;
 `;
 
-export const Select = styled.select`
-  width: 100%;
-  height: 3.3rem;
-  cursor: pointer;
+export const LabelCity = styled.label`
+  grid-area: city;
+`;
+
+export const LabelState = styled.label`
+  grid-area: state;
+`;
+
+export const LabelZipeCode = styled.label`
+  grid-area: zipe-code;
+`;
+
+export const LabelDepartment = styled.label`
+  grid-area: department;
 `;
 
 export const ButtonSubmit = styled.button`
+  grid-area: button-submit;
   margin: ${styleVariables.measureBasic} 0;
   width: 100%;
   height: 3.3rem;
-  cursor: pointer;
 `;

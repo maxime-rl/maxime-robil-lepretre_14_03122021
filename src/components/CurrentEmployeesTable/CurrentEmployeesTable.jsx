@@ -1,5 +1,10 @@
 import React from "react";
-import { useTable, useSortBy, useGlobalFilter } from "react-table";
+import {
+  useTable,
+  useSortBy,
+  useGlobalFilter,
+  usePagination,
+} from "react-table";
 import GlobalFilter from "./utils/GlobalFilter/GlobalFilter";
 import * as S from "./CurrentEmployeesTable.styled";
 
@@ -8,27 +13,49 @@ export default function CurrentEmployeesTable({ columns, data }) {
     getTableProps,
     getTableBodyProps,
     headerGroups,
+    page,
     rows,
     prepareRow,
     state,
     setGlobalFilter,
+    nextPage,
+    previousPage,
+    canNextPage,
+    canPreviousPage,
+    pageOptions,
+    setPageSize,
   } = useTable(
     {
       columns,
       data,
     },
     useGlobalFilter,
-    useSortBy
+    useSortBy,
+    usePagination
   );
-
-  const firstPageRows = rows.slice(0, 10);
 
   return (
     <S.Section>
-      <GlobalFilter
-        filterValue={state.globalFilter}
-        setFilter={setGlobalFilter}
-      />
+      <h2 className="sr-only">list of employees</h2>
+      <S.SearchAndPageSize>
+        <S.SelectPageSize
+          name="pageSize"
+          value={state.pageSize}
+          onChange={(e) => {
+            setPageSize(Number(e.target.value));
+          }}
+        >
+          {[10, 25, 50, 100].map((pageSize) => (
+            <option key={pageSize} value={pageSize}>
+              Show {pageSize}
+            </option>
+          ))}
+        </S.SelectPageSize>
+        <GlobalFilter
+          filterValue={state.globalFilter}
+          setFilter={setGlobalFilter}
+        />
+      </S.SearchAndPageSize>
       <S.Table {...getTableProps()}>
         <thead>
           {headerGroups.map((headerGroup) => (
@@ -36,7 +63,10 @@ export default function CurrentEmployeesTable({ columns, data }) {
               {headerGroup.headers.map((column) => (
                 // Add the sorting props to control sorting. For this example
                 // we can add them into the header props
-                <th {...column.getHeaderProps(column.getSortByToggleProps())}>
+                <S.Th
+                  active={column.isSorted}
+                  {...column.getHeaderProps(column.getSortByToggleProps())}
+                >
                   {column.render("Header")}
                   {/* Add a sort direction indicator */}
                   <span>
@@ -46,13 +76,13 @@ export default function CurrentEmployeesTable({ columns, data }) {
                         : " 🔼"
                       : ""}
                   </span>
-                </th>
+                </S.Th>
               ))}
             </tr>
           ))}
         </thead>
         <tbody {...getTableBodyProps()}>
-          {firstPageRows.map((row, i) => {
+          {page.map((row, i) => {
             prepareRow(row);
             return (
               <tr {...row.getRowProps()}>
@@ -66,10 +96,20 @@ export default function CurrentEmployeesTable({ columns, data }) {
           })}
         </tbody>
       </S.Table>
-      <br />
-      <S.ResultsIndicator>
-        Showing the first 10 results of {rows.length} rows
-      </S.ResultsIndicator>
+      <S.Pagination>
+        <p>{rows.length} employees in total</p>
+        <S.BtnWrapper>
+          <button onClick={() => previousPage()} disabled={!canPreviousPage}>
+            ◀️
+          </button>
+          <span>
+            {state.pageIndex + 1} of {pageOptions.length}
+          </span>
+          <button onClick={() => nextPage()} disabled={!canNextPage}>
+            ▶️
+          </button>
+        </S.BtnWrapper>
+      </S.Pagination>
     </S.Section>
   );
 }

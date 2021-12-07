@@ -6,8 +6,9 @@ import { saveToLocalStorage } from "../utils/localStorage/saveToLocalStorage";
 import { mockEmployees } from "../utils/data/mockEmployees";
 
 function App() {
-  // Just for test
-  if (window.localStorage.length === 0) {
+  const employees = localStorage.getItem("HRnetEmployeesSession");
+
+  if (!employees) {
     mockEmployees.forEach((employee) => {
       saveToLocalStorage(employee);
     });
