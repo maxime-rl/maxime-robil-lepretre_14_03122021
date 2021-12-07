@@ -31,7 +31,7 @@ export default function CreateEmployeeForm() {
   return (
     <>
       <S.Form onSubmit={handleSubmit}>
-        <label>
+        <S.LabelFirstName>
           <S.P>First Name</S.P>
           <S.Input
             name="firstName"
@@ -40,8 +40,8 @@ export default function CreateEmployeeForm() {
             onChange={handleInputChange}
             required
           />
-        </label>
-        <label>
+        </S.LabelFirstName>
+        <S.LabelLastName>
           <S.P>Last Name</S.P>
           <S.Input
             name="lastName"
@@ -50,7 +50,7 @@ export default function CreateEmployeeForm() {
             onChange={handleInputChange}
             required
           />
-        </label>
+        </S.LabelLastName>
         <S.DateWrapper>
           <label>
             <S.P>Date of Birth</S.P>
@@ -73,55 +73,53 @@ export default function CreateEmployeeForm() {
             />
           </label>
         </S.DateWrapper>
-        <S.Fieldset>
-          <S.Legend>Address</S.Legend>
-          <label>
-            <S.P>Street</S.P>
-            <S.Input
-              name="street"
-              type="text"
-              value={formValues.street}
-              onChange={handleInputChange}
-              required
-            />
-          </label>
-          <label>
-            <S.P>City</S.P>
-            <S.Input
-              name="city"
-              type="text"
-              value={formValues.city}
-              onChange={handleInputChange}
-              required
-            />
-          </label>
-          <label>
-            <S.P>State</S.P>
-            <S.Select
-              name="state"
-              value={formValues.state}
-              onChange={handleInputChange}
-              required
-            >
-              {states.map((state) => (
-                <option key={state.value} value={state.value}>
-                  {state.name}
-                </option>
-              ))}
-            </S.Select>
-          </label>
-          <label>
-            <S.P>Zip Code</S.P>
-            <S.Input
-              name="zipCode"
-              type="number"
-              value={formValues.zipCode}
-              onChange={handleInputChange}
-              required
-            />
-          </label>
-        </S.Fieldset>
-        <label>
+        <S.AddressTitle>Address</S.AddressTitle>
+        <S.LabelStreet>
+          <S.P>Street</S.P>
+          <S.Input
+            name="street"
+            type="text"
+            value={formValues.street}
+            onChange={handleInputChange}
+            required
+          />
+        </S.LabelStreet>
+        <S.LabelCity>
+          <S.P>City</S.P>
+          <S.Input
+            name="city"
+            type="text"
+            value={formValues.city}
+            onChange={handleInputChange}
+            required
+          />
+        </S.LabelCity>
+        <S.LabelState>
+          <S.P>State</S.P>
+          <S.Select
+            name="state"
+            value={formValues.state}
+            onChange={handleInputChange}
+            required
+          >
+            {states.map((state) => (
+              <option key={state.value} value={state.value}>
+                {state.name}
+              </option>
+            ))}
+          </S.Select>
+        </S.LabelState>
+        <S.LabelZipeCode>
+          <S.P>Zip Code</S.P>
+          <S.Input
+            name="zipCode"
+            type="number"
+            value={formValues.zipCode}
+            onChange={handleInputChange}
+            required
+          />
+        </S.LabelZipeCode>
+        <S.LabelDepartment>
           <S.P>Department</S.P>
           <S.Select
             name="department"
@@ -135,7 +133,7 @@ export default function CreateEmployeeForm() {
               </option>
             ))}
           </S.Select>
-        </label>
+        </S.LabelDepartment>
         <S.ButtonSubmit type="submit">Save</S.ButtonSubmit>
       </S.Form>
     </>
