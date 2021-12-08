@@ -1,11 +1,18 @@
 import React from "react";
 import { useState } from "react";
 import { saveToLocalStorage } from "../../utils/localStorage/saveToLocalStorage";
+import { Modal } from "react-modal-mrl";
+import { Link } from "react-router-dom";
 import { states } from "../../utils/data/states";
 import { departments } from "../../utils/data/departments";
 import * as S from "./CreateEmployeeForm.styled";
 
+/**
+ * @name CreateEmployeeForm
+ * @returns {ReactElement|object}
+ */
 export default function CreateEmployeeForm() {
+  const [modal, setModal] = useState(false);
   const [formValues, setFormValues] = useState({
     firstName: "",
     lastName: "",
@@ -22,10 +29,29 @@ export default function CreateEmployeeForm() {
     setFormValues({ ...formValues, [e.target.name]: e.target.value });
   };
 
+  /**
+   * we get and register the new employee in the local storage
+   * @param {event}
+   */
   const handleSubmit = (e) => {
     e.preventDefault();
+    setModal(!modal);
     saveToLocalStorage(formValues);
-    alert("Employee created !");
+  };
+
+  const triggerModal = () => {
+    setModal(!modal);
+    setFormValues({
+      firstName: "",
+      lastName: "",
+      dateOfBirth: "",
+      startDate: "",
+      street: "",
+      city: "",
+      state: "AL",
+      zipCode: "",
+      department: "Sales",
+    });
   };
 
   return (
@@ -136,6 +162,14 @@ export default function CreateEmployeeForm() {
         </S.LabelDepartment>
         <S.ButtonSubmit type="submit">Save</S.ButtonSubmit>
       </S.Form>
+      {/* npm plugin react-modal-mrl Documentation -> https://www.npmjs.com/package/react-modal-mrl */}
+      <Modal show={modal} close={triggerModal} title="Employee saved">
+        <p>
+          {formValues.firstName} {formValues.lastName}
+        </p>
+        <p>Department: {formValues.department}</p>
+        <Link to="/employee-list">See current employees</Link>
+      </Modal>
     </>
   );
 }

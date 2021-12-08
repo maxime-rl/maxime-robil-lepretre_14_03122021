@@ -2,6 +2,10 @@ import React from "react";
 import * as S from "./NavBar.styled";
 import { NavLink } from "react-router-dom";
 
+/**
+ * @name NavBar
+ * @returns {ReactElement}
+ */
 export default function NavBar() {
   return (
     <S.Nav>

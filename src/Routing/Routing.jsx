@@ -2,6 +2,11 @@ import React from "react";
 import { Routes, Route } from "react-router-dom";
 import { CreateEmployeePage, CurrentEmployeesPage, ErrorPage } from "../pages";
 
+/**
+ * App routing
+ * @name Routing
+ * @returns {function}
+ */
 export default function Routing() {
   return (
     <Routes>
