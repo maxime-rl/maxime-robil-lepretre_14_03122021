@@ -1,5 +1,13 @@
 import React from "react";
+import PropTypes from "prop-types";
 
+/**
+ * Optional component of the hook react-table to search table data
+ * @name GlobalFilter
+ * @param {string} filterValue
+ * @param {function} setFilter
+ * @returns
+ */
 export default function GlobalFilter({ filterValue, setFilter }) {
   return (
     <label>
@@ -11,3 +19,8 @@ export default function GlobalFilter({ filterValue, setFilter }) {
     </label>
   );
 }
+
+GlobalFilter.propTypes = {
+  filterValue: PropTypes.string,
+  setFilter: PropTypes.func.isRequired,
+};

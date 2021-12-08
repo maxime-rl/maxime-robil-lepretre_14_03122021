@@ -3,7 +3,7 @@ import { normalize } from "styled-normalize";
 import { styleVariables } from "./variables";
 
 /**
- * Global styles for all the Application
+ * Global styles with normalize for Application
  */
 const GlobalStyle = createGlobalStyle`
   ${normalize}

@@ -6,8 +6,17 @@ import {
   usePagination,
 } from "react-table";
 import GlobalFilter from "./utils/GlobalFilter/GlobalFilter";
+import PropTypes from "prop-types";
 import * as S from "./CurrentEmployeesTable.styled";
 
+/**
+ * Hook react-table
+ * Documentation -> https://react-table.tanstack.com/docs/overview
+ * @name CurrentEmployeesTable
+ * @param {object|array} columns head of the table
+ * @param {object|array} data list of employees
+ * @returns {ReactElement}
+ */
 export default function CurrentEmployeesTable({ columns, data }) {
   const {
     getTableProps,
@@ -114,4 +123,7 @@ export default function CurrentEmployeesTable({ columns, data }) {
   );
 }
 
-//Documentation react-table -> https://react-table.tanstack.com/docs/overview
+CurrentEmployeesTable.propTypes = {
+  columns: PropTypes.array.isRequired,
+  data: PropTypes.array,
+};

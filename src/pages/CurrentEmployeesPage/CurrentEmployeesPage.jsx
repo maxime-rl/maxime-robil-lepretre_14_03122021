@@ -2,6 +2,10 @@ import React, { useEffect } from "react";
 import { CurrentEmployeesTable } from "../../components";
 import { currentEmployeesTableHead } from "../../components/CurrentEmployeesTable/utils/currentEmployeesTableHead";
 
+/**
+ * @name CurrentEmployeesPage
+ * @returns {ReactElement}
+ */
 export default function CurrentEmployeesPage() {
   const currentEmployees = JSON.parse(
     localStorage.getItem("HRnetEmployeesSession")
