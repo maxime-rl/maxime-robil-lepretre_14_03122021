@@ -5,6 +5,7 @@ import { Modal } from "react-modal-mrl";
 import { Link } from "react-router-dom";
 import { states } from "../../utils/data/states";
 import { departments } from "../../utils/data/departments";
+import closeIcon from "../../assets/close-icon.svg";
 import * as S from "./CreateEmployeeForm.styled";
 
 /**
@@ -163,7 +164,12 @@ export default function CreateEmployeeForm() {
         <S.ButtonSubmit type="submit">Save</S.ButtonSubmit>
       </S.Form>
       {/* npm plugin react-modal-mrl Documentation -> https://www.npmjs.com/package/react-modal-mrl */}
-      <Modal show={modal} close={triggerModal} title="Employee saved">
+      <Modal
+        show={modal}
+        close={triggerModal}
+        closeIcon={closeIcon}
+        title="Employee saved"
+      >
         <p>
           {formValues.firstName} {formValues.lastName}
         </p>
