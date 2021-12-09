@@ -39,11 +39,11 @@ export default function CreateEmployeeForm() {
 
   const checkedInputTypeText = (input) => {
     if (input.value.trim().length < 3) {
-      setError(`⚠️the ${input.name} is too short`);
+      setError(`⚠️ The ${input.name} is too short`);
       return false;
     }
     if (!namePattern.test(input.value.trim())) {
-      setError(`⚠️the ${input.name} is not in the correct format`);
+      setError(`⚠️ The ${input.name} is not in the correct format`);
       return false;
     } else {
       setError("");
@@ -53,16 +53,11 @@ export default function CreateEmployeeForm() {
 
   const checkedDateOfBirth = (birthOfDate) => {
     let currentYear = new Date().getFullYear();
-    let minAge = currentYear - 18;
-    let maxAge = currentYear - 130;
+    let maxAge = currentYear - 150;
     let employeeBirthYear = birthOfDate.split("-")[0];
 
-    if (employeeBirthYear > minAge) {
-      setError("⚠️The employee must be 18 years old");
-      return false;
-    }
     if (employeeBirthYear < maxAge) {
-      setError("⚠️Please enter a valid anniversary date");
+      setError("⚠️ Please enter a valid anniversary date");
       return false;
     } else {
       setError("");
@@ -72,7 +67,7 @@ export default function CreateEmployeeForm() {
 
   const checkedZipCode = (zipCode) => {
     if (zipCode < 0) {
-      setError("⚠️the postal code must be positive");
+      setError("⚠️ The postal code must be positive");
       return false;
     } else {
       setError("");
@@ -82,7 +77,6 @@ export default function CreateEmployeeForm() {
 
   const handleInputChange = (e) => {
     setFormValues({ ...formValues, [e.target.name]: e.target.value });
-    console.log(e.target.value);
   };
 
   /**
@@ -102,6 +96,13 @@ export default function CreateEmployeeForm() {
     ) {
       setModal(!modal);
       saveToLocalStorage(formValues);
+    } else {
+      if (window.matchMedia("(max-width: 890px)").matches) {
+        window.scrollTo({
+          top: 0,
+          behavior: "smooth",
+        });
+      }
     }
   };
 
