@@ -1,4 +1,5 @@
 import styled from "styled-components";
+import { Link } from "react-router-dom";
 import { styleVariables } from "../../utils/styles/variables";
 
 export const Form = styled.form`
@@ -116,4 +117,19 @@ export const ButtonSubmit = styled.button`
 export const ErrorMessage = styled.small`
   font-size: 1.2rem;
   color: red;
+`;
+
+export const EmployeeName = styled.p`
+  font-weight: 500;
+`;
+
+export const EmployeeInfosWrapper = styled.div`
+  @media (min-width: 891px) {
+    display: flex;
+    gap: 2.5rem;
+  }
+`;
+
+export const LinkToCurrentEmployees = styled(Link)`
+  text-decoration: underline;
 `;

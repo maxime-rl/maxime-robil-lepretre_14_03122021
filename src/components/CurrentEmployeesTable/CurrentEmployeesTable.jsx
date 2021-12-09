@@ -106,7 +106,7 @@ export default function CurrentEmployeesTable({ columns, data }) {
         </tbody>
       </S.Table>
       <S.Pagination>
-        <p>{rows.length} employees in total</p>
+        <p>Total employees: {rows.length}</p>
         <S.BtnWrapper>
           <button onClick={() => previousPage()} disabled={!canPreviousPage}>
             ◀️

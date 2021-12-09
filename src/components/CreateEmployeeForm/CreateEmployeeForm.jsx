@@ -1,8 +1,6 @@
 import React, { useState } from "react";
 import { saveToLocalStorage } from "../../utils/localStorage/saveToLocalStorage";
 import { Modal } from "react-modal-mrl";
-import { Link } from "react-router-dom";
-import { scrollToTop } from "../../utils/divers/scrollToTop";
 import { states } from "../../utils/data/states";
 import { departments } from "../../utils/data/departments";
 import closeIcon from "../../assets/close-icon.svg";
@@ -136,7 +134,10 @@ export default function CreateEmployeeForm() {
     } else {
       // Slight detail for the user experience if there is an error on mobile
       if (window.matchMedia("(max-width: 890px)").matches) {
-        scrollToTop();
+        window.scrollTo({
+          top: 0,
+          behavior: "smooth",
+        });
       }
     }
   };
@@ -267,18 +268,23 @@ export default function CreateEmployeeForm() {
         </S.LabelDepartment>
         <S.ButtonSubmit type="submit">Save</S.ButtonSubmit>
       </S.Form>
-      {/* npm plugin react-modal-mrl Documentation -> https://www.npmjs.com/package/react-modal-mrl */}
+      {/* npm package react-modal-mrl Documentation -> https://www.npmjs.com/package/react-modal-mrl */}
       <Modal
         show={modal}
         close={triggerModal}
         closeIcon={closeIcon}
-        title="Employee saved"
+        title="Employee added"
       >
-        <p>
+        <S.EmployeeName>
           {formValues.firstName} {formValues.lastName}
-        </p>
-        <p>Department: {formValues.department}</p>
-        <Link to="/employee-list">See current employees</Link>
+        </S.EmployeeName>
+        <S.EmployeeInfosWrapper>
+          <p>Start date: {formValues.startDate}</p>
+          <p>Department: {formValues.department}</p>
+        </S.EmployeeInfosWrapper>
+        <S.LinkToCurrentEmployees to="/employee-list">
+          list of employees
+        </S.LinkToCurrentEmployees>
       </Modal>
     </>
   );
