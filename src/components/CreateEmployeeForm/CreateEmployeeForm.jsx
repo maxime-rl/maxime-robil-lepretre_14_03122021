@@ -1,5 +1,4 @@
-import React from "react";
-import { useState } from "react";
+import React, { useState } from "react";
 import { saveToLocalStorage } from "../../utils/localStorage/saveToLocalStorage";
 import { Modal } from "react-modal-mrl";
 import { Link } from "react-router-dom";
@@ -14,6 +13,7 @@ import * as S from "./CreateEmployeeForm.styled";
  */
 export default function CreateEmployeeForm() {
   const [modal, setModal] = useState(false);
+  const [error, setError] = useState("");
   const [formValues, setFormValues] = useState({
     firstName: "",
     lastName: "",
@@ -26,8 +26,63 @@ export default function CreateEmployeeForm() {
     department: "Sales",
   });
 
+  const namePattern = /^([A-Za-zÀ-ÿ][-,a-z. ']+[ ]*)+$/;
+  let dateTodayToIsoString = new Date().toISOString().substr(0, 10);
+
+  let dateToday = new Date();
+  let year = dateToday.getFullYear();
+  let month = dateToday.getMonth();
+  let day = dateToday.getDate();
+  let legalAgeDateToIsoString = new Date(year - 18, month, day)
+    .toISOString()
+    .substr(0, 10);
+
+  const checkedInputTypeText = (input) => {
+    if (input.value.trim().length < 3) {
+      setError(`⚠️the ${input.name} is too short`);
+      return false;
+    }
+    if (!namePattern.test(input.value.trim())) {
+      setError(`⚠️the ${input.name} is not in the correct format`);
+      return false;
+    } else {
+      setError("");
+      return true;
+    }
+  };
+
+  const checkedDateOfBirth = (birthOfDate) => {
+    let currentYear = new Date().getFullYear();
+    let minAge = currentYear - 18;
+    let maxAge = currentYear - 130;
+    let employeeBirthYear = birthOfDate.split("-")[0];
+
+    if (employeeBirthYear > minAge) {
+      setError("⚠️The employee must be 18 years old");
+      return false;
+    }
+    if (employeeBirthYear < maxAge) {
+      setError("⚠️Please enter a valid anniversary date");
+      return false;
+    } else {
+      setError("");
+      return true;
+    }
+  };
+
+  const checkedZipCode = (zipCode) => {
+    if (zipCode < 0) {
+      setError("⚠️the postal code must be positive");
+      return false;
+    } else {
+      setError("");
+      return true;
+    }
+  };
+
   const handleInputChange = (e) => {
     setFormValues({ ...formValues, [e.target.name]: e.target.value });
+    console.log(e.target.value);
   };
 
   /**
@@ -36,8 +91,18 @@ export default function CreateEmployeeForm() {
    */
   const handleSubmit = (e) => {
     e.preventDefault();
-    setModal(!modal);
-    saveToLocalStorage(formValues);
+
+    if (
+      checkedInputTypeText(e.target.firstName) &&
+      checkedInputTypeText(e.target.lastName) &&
+      checkedInputTypeText(e.target.street) &&
+      checkedInputTypeText(e.target.city) &&
+      checkedDateOfBirth(formValues.dateOfBirth) &&
+      checkedZipCode(formValues.zipCode)
+    ) {
+      setModal(!modal);
+      saveToLocalStorage(formValues);
+    }
   };
 
   const triggerModal = () => {
@@ -58,6 +123,7 @@ export default function CreateEmployeeForm() {
   return (
     <>
       <S.Form onSubmit={handleSubmit}>
+        <S.ErrorMessage>{error}</S.ErrorMessage>
         <S.LabelFirstName>
           <S.P>First Name</S.P>
           <S.Input
@@ -84,6 +150,7 @@ export default function CreateEmployeeForm() {
             <S.Input
               name="dateOfBirth"
               type="date"
+              max={legalAgeDateToIsoString}
               value={formValues.dateOfBirth}
               onChange={handleInputChange}
               required
@@ -94,6 +161,7 @@ export default function CreateEmployeeForm() {
             <S.Input
               name="startDate"
               type="date"
+              max={dateTodayToIsoString}
               value={formValues.startDate}
               onChange={handleInputChange}
               required
