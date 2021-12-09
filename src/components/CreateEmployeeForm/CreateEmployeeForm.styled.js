@@ -112,3 +112,8 @@ export const ButtonSubmit = styled.button`
   width: 100%;
   height: 3.3rem;
 `;
+
+export const ErrorMessage = styled.small`
+  font-size: 1.2rem;
+  color: red;
+`;
