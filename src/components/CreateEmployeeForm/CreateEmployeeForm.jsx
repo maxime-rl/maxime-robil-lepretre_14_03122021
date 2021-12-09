@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import { saveToLocalStorage } from "../../utils/localStorage/saveToLocalStorage";
 import { Modal } from "react-modal-mrl";
 import { Link } from "react-router-dom";
+import { scrollToTop } from "../../utils/divers/scrollToTop";
 import { states } from "../../utils/data/states";
 import { departments } from "../../utils/data/departments";
 import closeIcon from "../../assets/close-icon.svg";
@@ -26,9 +27,14 @@ export default function CreateEmployeeForm() {
     department: "Sales",
   });
 
-  const namePattern = /^([A-Za-zÀ-ÿ][-,a-z. ']+[ ]*)+$/;
+  /**
+   * Regex pattern for first name, last name and city entries,
+   * and utils to control date entries
+   */
+  const nameAndCityPattern = /^([A-Za-zÀ-ÿ][-,a-z. ']+[ ]*)+$/;
+  /****************************************************************/
   let dateTodayToIsoString = new Date().toISOString().substr(0, 10);
-
+  /****************************************************************/
   let dateToday = new Date();
   let year = dateToday.getFullYear();
   let month = dateToday.getMonth();
@@ -37,12 +43,17 @@ export default function CreateEmployeeForm() {
     .toISOString()
     .substr(0, 10);
 
-  const checkedInputTypeText = (input) => {
+  /**
+   * @name checkedNameOrCityInput
+   * @param {object} input firstName|lastName|city
+   * @returns {boolean}
+   */
+  const checkedNameOrCityInput = (input) => {
     if (input.value.trim().length < 3) {
       setError(`⚠️ The ${input.name} is too short`);
       return false;
     }
-    if (!namePattern.test(input.value.trim())) {
+    if (!nameAndCityPattern.test(input.value.trim())) {
       setError(`⚠️ The ${input.name} is not in the correct format`);
       return false;
     } else {
@@ -51,13 +62,14 @@ export default function CreateEmployeeForm() {
     }
   };
 
-  const checkedDateOfBirth = (birthOfDate) => {
-    let currentYear = new Date().getFullYear();
-    let maxAge = currentYear - 150;
-    let employeeBirthYear = birthOfDate.split("-")[0];
-
-    if (employeeBirthYear < maxAge) {
-      setError("⚠️ Please enter a valid anniversary date");
+  /**
+   * @name checkedStreetInput
+   * @param {object} input street
+   * @returns {boolean}
+   */
+  const checkedStreetInput = (input) => {
+    if (input.value.trim().length < 3) {
+      setError(`⚠️ The ${input.name} is too short`);
       return false;
     } else {
       setError("");
@@ -65,9 +77,33 @@ export default function CreateEmployeeForm() {
     }
   };
 
-  const checkedZipCode = (zipCode) => {
-    if (zipCode < 0) {
-      setError("⚠️ The postal code must be positive");
+  /**
+   * @name checkedDateInput
+   * @param {object} input dateOfBirth|startDate
+   * @returns {boolean}
+   */
+  const checkedDateInput = (input) => {
+    let currentYear = new Date().getFullYear();
+    let deadline = currentYear - 150;
+    let selectedDate = input.value.split("-")[0];
+
+    if (selectedDate < deadline) {
+      setError(`⚠️ Please enter a ${input.name} valid date`);
+      return false;
+    } else {
+      setError("");
+      return true;
+    }
+  };
+
+  /**
+   * @name checkedZipCodeInput
+   * @param {object} input zipeCode
+   * @returns {boolean}
+   */
+  const checkedZipCodeInput = (input) => {
+    if (input.value < 1) {
+      setError("⚠️ The zip code must be positive");
       return false;
     } else {
       setError("");
@@ -87,21 +123,20 @@ export default function CreateEmployeeForm() {
     e.preventDefault();
 
     if (
-      checkedInputTypeText(e.target.firstName) &&
-      checkedInputTypeText(e.target.lastName) &&
-      checkedInputTypeText(e.target.street) &&
-      checkedInputTypeText(e.target.city) &&
-      checkedDateOfBirth(formValues.dateOfBirth) &&
-      checkedZipCode(formValues.zipCode)
+      checkedNameOrCityInput(e.target.firstName) &&
+      checkedNameOrCityInput(e.target.lastName) &&
+      checkedStreetInput(e.target.street) &&
+      checkedNameOrCityInput(e.target.city) &&
+      checkedDateInput(e.target.dateOfBirth) &&
+      checkedDateInput(e.target.startDate) &&
+      checkedZipCodeInput(e.target.zipCode)
     ) {
       setModal(!modal);
       saveToLocalStorage(formValues);
     } else {
+      // Slight detail for the user experience if there is an error on mobile
       if (window.matchMedia("(max-width: 890px)").matches) {
-        window.scrollTo({
-          top: 0,
-          behavior: "smooth",
-        });
+        scrollToTop();
       }
     }
   };
