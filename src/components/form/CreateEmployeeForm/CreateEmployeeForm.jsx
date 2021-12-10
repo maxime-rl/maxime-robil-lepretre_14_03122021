@@ -1,8 +1,8 @@
 import React, { useState } from "react";
 import { saveToLocalStorage } from "../../../utils/localStorage/saveToLocalStorage";
 import { Modal } from "react-modal-mrl";
-import { DatePicker } from "../..";
-import { Select } from "../..";
+import { DatePicker } from "../index";
+import { Select } from "../index";
 import { states } from "../../../utils/data/states";
 import { departments } from "../../../utils/data/departments";
 import closeIcon from "../../../assets/close-icon.svg";

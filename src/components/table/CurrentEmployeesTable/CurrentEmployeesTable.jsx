@@ -5,7 +5,7 @@ import {
   useGlobalFilter,
   usePagination,
 } from "react-table";
-import GlobalFilter from "../GlobalFilter/GlobalFilter";
+import { GlobalFilter } from "../index";
 import PropTypes from "prop-types";
 import * as S from "./CurrentEmployeesTable.styled";
 
