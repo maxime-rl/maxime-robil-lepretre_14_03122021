@@ -1,10 +1,11 @@
 import React, { useState } from "react";
-import { saveToLocalStorage } from "../../utils/localStorage/saveToLocalStorage";
+import { saveToLocalStorage } from "../../../utils/localStorage/saveToLocalStorage";
 import { Modal } from "react-modal-mrl";
-import { DatePicker } from "..";
-import { states } from "../../utils/data/states";
-import { departments } from "../../utils/data/departments";
-import closeIcon from "../../assets/close-icon.svg";
+import { DatePicker } from "../..";
+import { Select } from "../..";
+import { states } from "../../../utils/data/states";
+import { departments } from "../../../utils/data/departments";
+import closeIcon from "../../../assets/close-icon.svg";
 import * as S from "./CreateEmployeeForm.styled";
 
 /**
@@ -87,7 +88,7 @@ export default function CreateEmployeeForm() {
     let selectedDate = input.value.split("-")[0];
 
     if (selectedDate < deadline) {
-      setError(`⚠️ Please enter a ${input.name} valid`);
+      setError(`⚠️ ${input.name} is not valid`);
       return false;
     } else {
       setError("");
@@ -183,22 +184,26 @@ export default function CreateEmployeeForm() {
           />
         </S.LabelLastName>
         <S.DateWrapper>
-          <DatePicker
-            title={"Date of Birth"}
-            name={"dateOfBirth"}
-            max={legalAgeDateToIsoString}
-            value={formValues.dateOfBirth}
-            onChange={handleInputChange}
-            required={true}
-          />
-          <DatePicker
-            title={"Start Date"}
-            name={"startDate"}
-            max={dateTodayToIsoString}
-            value={formValues.startDate}
-            onChange={handleInputChange}
-            required={true}
-          />
+          <label>
+            <S.P>Date of Birth</S.P>
+            <DatePicker
+              name={"dateOfBirth"}
+              value={formValues.dateOfBirth}
+              max={legalAgeDateToIsoString}
+              onChange={handleInputChange}
+              required={true}
+            />
+          </label>
+          <label>
+            <S.P>Start Date</S.P>
+            <DatePicker
+              name={"startDate"}
+              value={formValues.startDate}
+              max={dateTodayToIsoString}
+              onChange={handleInputChange}
+              required={true}
+            />
+          </label>
         </S.DateWrapper>
         <S.AddressTitle>Address</S.AddressTitle>
         <S.LabelStreet>
@@ -223,18 +228,13 @@ export default function CreateEmployeeForm() {
         </S.LabelCity>
         <S.LabelState>
           <S.P>State</S.P>
-          <S.Select
-            name="state"
+          <Select
+            name={"state"}
             value={formValues.state}
             onChange={handleInputChange}
+            dataOptions={states}
             required
-          >
-            {states.map((state) => (
-              <option key={state.value} value={state.value}>
-                {state.name}
-              </option>
-            ))}
-          </S.Select>
+          ></Select>
         </S.LabelState>
         <S.LabelZipeCode>
           <S.P>Zip Code</S.P>
@@ -248,18 +248,13 @@ export default function CreateEmployeeForm() {
         </S.LabelZipeCode>
         <S.LabelDepartment>
           <S.P>Department</S.P>
-          <S.Select
-            name="department"
+          <Select
+            name={"department"}
             value={formValues.department}
             onChange={handleInputChange}
+            dataOptions={departments}
             required
-          >
-            {departments.map((department) => (
-              <option key={department.value} value={department.value}>
-                {department.name}
-              </option>
-            ))}
-          </S.Select>
+          ></Select>
         </S.LabelDepartment>
         <S.ButtonSubmit type="submit">Save</S.ButtonSubmit>
       </S.Form>
