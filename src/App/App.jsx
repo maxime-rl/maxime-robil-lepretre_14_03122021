@@ -3,7 +3,7 @@ import Routing from "../Routing/Routing";
 import ScrollToTop from "../utils/divers/ScrollToTop";
 import { NavBar } from "../components";
 import GlobalStyle from "../utils/styles/GlobalStyle";
-import { saveToLocalStorage } from "../utils/localStorage/saveToLocalStorage";
+import checkedLocalStorage from "../utils/divers/handleLocalStorage";
 import { mockEmployees } from "../utils/data/mockEmployees";
 
 /**
@@ -11,18 +11,13 @@ import { mockEmployees } from "../utils/data/mockEmployees";
  * @returns {function|object|ReactElement}
  */
 function App() {
-  const employees = localStorage.getItem("HRnetEmployeesSession");
-
   /**
    * In the absence of a backend, HRnet app works for the moment with a persistent state in the local storage.
    * If the key: "HRnetEmployeesSession" is not present in the local storage of the user's browser,
    * we push fake employees in local storage
    */
-  if (!employees) {
-    mockEmployees.forEach((employee) => {
-      saveToLocalStorage(employee);
-    });
-  }
+  const employees = localStorage.getItem("HRnetEmployeesSession");
+  checkedLocalStorage(employees, mockEmployees);
 
   return (
     <BrowserRouter>

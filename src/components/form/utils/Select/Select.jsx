@@ -20,11 +20,13 @@ export default function Select({
 }) {
   return (
     <S.Select name={name} value={value} onChange={onChange} required={required}>
-      {dataOptions.map((data) => (
-        <option key={data.value} value={data.value}>
-          {data.name}
-        </option>
-      ))}
+      {dataOptions
+        .sort((a, b) => (a.name.toUpperCase() > b.name.toUpperCase() ? 1 : -1))
+        .map((data, index) => (
+          <option key={index} value={data.value}>
+            {data.name}
+          </option>
+        ))}
     </S.Select>
   );
 }

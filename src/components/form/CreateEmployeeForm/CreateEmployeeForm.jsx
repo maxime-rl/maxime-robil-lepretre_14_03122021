@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { saveToLocalStorage } from "../../../utils/localStorage/saveToLocalStorage";
+import { saveToLocalStorage } from "../../../utils/divers/handleLocalStorage";
 import { Modal } from "react-modal-mrl";
 import { DatePicker } from "../index";
 import { Select } from "../index";
@@ -24,7 +24,7 @@ export default function CreateEmployeeForm() {
     city: "",
     state: "AL",
     zipCode: "",
-    department: "Sales",
+    department: "Engineering",
   });
 
   /**
@@ -155,7 +155,7 @@ export default function CreateEmployeeForm() {
       city: "",
       state: "AL",
       zipCode: "",
-      department: "Sales",
+      department: "Engineering",
     });
   };
 
