@@ -22,9 +22,9 @@ export default function CreateEmployeeForm() {
     startDate: "",
     street: "",
     city: "",
-    state: "AL",
+    state: "",
     zipCode: "",
-    department: "Engineering",
+    department: "",
   });
 
   /**
@@ -153,9 +153,9 @@ export default function CreateEmployeeForm() {
       startDate: "",
       street: "",
       city: "",
-      state: "AL",
+      state: "",
       zipCode: "",
-      department: "Engineering",
+      department: "",
     });
   };
 
