@@ -1,5 +1,6 @@
 import { BrowserRouter } from "react-router-dom";
 import Routing from "../Routing/Routing";
+import ScrollToTop from "../utils/divers/ScrollToTop";
 import { NavBar } from "../components";
 import GlobalStyle from "../utils/styles/GlobalStyle";
 import { saveToLocalStorage } from "../utils/localStorage/saveToLocalStorage";
@@ -27,7 +28,9 @@ function App() {
     <BrowserRouter>
       <GlobalStyle />
       <NavBar />
-      <Routing />
+      <ScrollToTop>
+        <Routing />
+      </ScrollToTop>
     </BrowserRouter>
   );
 }

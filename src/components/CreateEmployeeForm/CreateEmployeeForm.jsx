@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import { saveToLocalStorage } from "../../utils/localStorage/saveToLocalStorage";
 import { Modal } from "react-modal-mrl";
+import { DatePicker } from "..";
 import { states } from "../../utils/data/states";
 import { departments } from "../../utils/data/departments";
 import closeIcon from "../../assets/close-icon.svg";
@@ -86,7 +87,7 @@ export default function CreateEmployeeForm() {
     let selectedDate = input.value.split("-")[0];
 
     if (selectedDate < deadline) {
-      setError(`⚠️ Please enter a ${input.name} valid date`);
+      setError(`⚠️ Please enter a ${input.name} valid`);
       return false;
     } else {
       setError("");
@@ -182,28 +183,22 @@ export default function CreateEmployeeForm() {
           />
         </S.LabelLastName>
         <S.DateWrapper>
-          <label>
-            <S.P>Date of Birth</S.P>
-            <S.Input
-              name="dateOfBirth"
-              type="date"
-              max={legalAgeDateToIsoString}
-              value={formValues.dateOfBirth}
-              onChange={handleInputChange}
-              required
-            />
-          </label>
-          <label>
-            <S.P>Start Date</S.P>
-            <S.Input
-              name="startDate"
-              type="date"
-              max={dateTodayToIsoString}
-              value={formValues.startDate}
-              onChange={handleInputChange}
-              required
-            />
-          </label>
+          <DatePicker
+            title={"Date of Birth"}
+            name={"dateOfBirth"}
+            max={legalAgeDateToIsoString}
+            value={formValues.dateOfBirth}
+            onChange={handleInputChange}
+            required={true}
+          />
+          <DatePicker
+            title={"Start Date"}
+            name={"startDate"}
+            max={dateTodayToIsoString}
+            value={formValues.startDate}
+            onChange={handleInputChange}
+            required={true}
+          />
         </S.DateWrapper>
         <S.AddressTitle>Address</S.AddressTitle>
         <S.LabelStreet>
