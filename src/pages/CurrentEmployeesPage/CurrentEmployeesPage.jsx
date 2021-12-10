@@ -1,6 +1,6 @@
 import React, { useEffect } from "react";
 import { CurrentEmployeesTable } from "../../components";
-import { currentEmployeesTableHead } from "../../components/CurrentEmployeesTable/utils/currentEmployeesTableHead";
+import { currentEmployeesTableHead } from "../../components/table/utils/currentEmployeesTableHead";
 
 /**
  * @name CurrentEmployeesPage

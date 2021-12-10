@@ -1,5 +1,6 @@
 import styled from "styled-components";
-import { styleVariables } from "../../utils/styles/variables";
+import { Link } from "react-router-dom";
+import { styleVariables } from "../../../utils/styles/variables";
 
 export const Form = styled.form`
   margin: ${styleVariables.measureLarger} ${styleVariables.measureBasic};
@@ -29,11 +30,6 @@ export const Form = styled.form`
 
 export const Input = styled.input`
   width: 98%;
-`;
-
-export const Select = styled.select`
-  width: 100%;
-  height: 3.3rem;
 `;
 
 export const P = styled.p`
@@ -116,4 +112,19 @@ export const ButtonSubmit = styled.button`
 export const ErrorMessage = styled.small`
   font-size: 1.2rem;
   color: red;
+`;
+
+export const EmployeeName = styled.p`
+  font-weight: 500;
+`;
+
+export const EmployeeInfosWrapper = styled.div`
+  @media (min-width: 891px) {
+    display: flex;
+    gap: 2.5rem;
+  }
+`;
+
+export const LinkToCurrentEmployees = styled(Link)`
+  text-decoration: underline;
 `;

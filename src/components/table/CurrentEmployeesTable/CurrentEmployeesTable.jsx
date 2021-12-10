@@ -5,7 +5,7 @@ import {
   useGlobalFilter,
   usePagination,
 } from "react-table";
-import GlobalFilter from "./utils/GlobalFilter/GlobalFilter";
+import { GlobalFilter } from "../index";
 import PropTypes from "prop-types";
 import * as S from "./CurrentEmployeesTable.styled";
 
@@ -106,7 +106,7 @@ export default function CurrentEmployeesTable({ columns, data }) {
         </tbody>
       </S.Table>
       <S.Pagination>
-        <p>{rows.length} employees in total</p>
+        <p>Total employees: {rows.length}</p>
         <S.BtnWrapper>
           <button onClick={() => previousPage()} disabled={!canPreviousPage}>
             ◀️

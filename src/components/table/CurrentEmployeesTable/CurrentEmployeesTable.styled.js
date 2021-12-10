@@ -1,5 +1,5 @@
 import styled from "styled-components";
-import { styleVariables } from "../../utils/styles/variables";
+import { styleVariables } from "../../../utils/styles/variables";
 
 export const Section = styled.section`
   display: flex;
@@ -13,10 +13,12 @@ export const Section = styled.section`
 export const SearchAndPageSize = styled.div`
   display: flex;
   justify-content: space-between;
+  flex-wrap: wrap;
   margin: ${styleVariables.measureBasic};
 `;
 
 export const SelectPageSize = styled.select`
+  margin-bottom: 1.5rem;
   height: 3.32rem;
 `;
 
@@ -37,7 +39,9 @@ export const Table = styled.table`
   td {
     margin: 0;
     padding: 0.5rem 1rem;
-    height: 2.8rem;
+    max-width: 12rem;
+    overflow: hidden;
+    text-overflow: ellipsis;
     border-bottom: 1px solid black;
     border-right: 1px solid black;
 
@@ -48,6 +52,7 @@ export const Table = styled.table`
 `;
 
 export const Th = styled.th`
+  height: 3rem;
   ${({ active }) =>
     active &&
     `

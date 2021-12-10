@@ -1,4 +1,5 @@
 import React from "react";
+import * as S from "./ErrorPage.styled";
 
 /**
  * @name ErrorPage
@@ -6,8 +7,9 @@ import React from "react";
  */
 export default function ErrorPage() {
   return (
-    <div>
-      <h1>Error page</h1>
-    </div>
+    <S.ErrorPageWrapper>
+      <S.Title>Error 404</S.Title>
+      <S.HomePageLink to="/">Back to Home</S.HomePageLink>
+    </S.ErrorPageWrapper>
   );
 }

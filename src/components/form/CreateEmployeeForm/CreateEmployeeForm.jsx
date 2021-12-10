@@ -1,11 +1,11 @@
 import React, { useState } from "react";
-import { saveToLocalStorage } from "../../utils/localStorage/saveToLocalStorage";
+import { saveToLocalStorage } from "../../../utils/localStorage/saveToLocalStorage";
 import { Modal } from "react-modal-mrl";
-import { Link } from "react-router-dom";
-import { scrollToTop } from "../../utils/divers/scrollToTop";
-import { states } from "../../utils/data/states";
-import { departments } from "../../utils/data/departments";
-import closeIcon from "../../assets/close-icon.svg";
+import { DatePicker } from "../index";
+import { Select } from "../index";
+import { states } from "../../../utils/data/states";
+import { departments } from "../../../utils/data/departments";
+import closeIcon from "../../../assets/close-icon.svg";
 import * as S from "./CreateEmployeeForm.styled";
 
 /**
@@ -88,7 +88,7 @@ export default function CreateEmployeeForm() {
     let selectedDate = input.value.split("-")[0];
 
     if (selectedDate < deadline) {
-      setError(`⚠️ Please enter a ${input.name} valid date`);
+      setError(`⚠️ ${input.name} is not valid`);
       return false;
     } else {
       setError("");
@@ -136,7 +136,10 @@ export default function CreateEmployeeForm() {
     } else {
       // Slight detail for the user experience if there is an error on mobile
       if (window.matchMedia("(max-width: 890px)").matches) {
-        scrollToTop();
+        window.scrollTo({
+          top: 0,
+          behavior: "smooth",
+        });
       }
     }
   };
@@ -183,24 +186,22 @@ export default function CreateEmployeeForm() {
         <S.DateWrapper>
           <label>
             <S.P>Date of Birth</S.P>
-            <S.Input
-              name="dateOfBirth"
-              type="date"
-              max={legalAgeDateToIsoString}
+            <DatePicker
+              name={"dateOfBirth"}
               value={formValues.dateOfBirth}
+              max={legalAgeDateToIsoString}
               onChange={handleInputChange}
-              required
+              required={true}
             />
           </label>
           <label>
             <S.P>Start Date</S.P>
-            <S.Input
-              name="startDate"
-              type="date"
-              max={dateTodayToIsoString}
+            <DatePicker
+              name={"startDate"}
               value={formValues.startDate}
+              max={dateTodayToIsoString}
               onChange={handleInputChange}
-              required
+              required={true}
             />
           </label>
         </S.DateWrapper>
@@ -227,18 +228,13 @@ export default function CreateEmployeeForm() {
         </S.LabelCity>
         <S.LabelState>
           <S.P>State</S.P>
-          <S.Select
-            name="state"
+          <Select
+            name={"state"}
             value={formValues.state}
             onChange={handleInputChange}
+            dataOptions={states}
             required
-          >
-            {states.map((state) => (
-              <option key={state.value} value={state.value}>
-                {state.name}
-              </option>
-            ))}
-          </S.Select>
+          ></Select>
         </S.LabelState>
         <S.LabelZipeCode>
           <S.P>Zip Code</S.P>
@@ -252,33 +248,33 @@ export default function CreateEmployeeForm() {
         </S.LabelZipeCode>
         <S.LabelDepartment>
           <S.P>Department</S.P>
-          <S.Select
-            name="department"
+          <Select
+            name={"department"}
             value={formValues.department}
             onChange={handleInputChange}
+            dataOptions={departments}
             required
-          >
-            {departments.map((department) => (
-              <option key={department.value} value={department.value}>
-                {department.name}
-              </option>
-            ))}
-          </S.Select>
+          ></Select>
         </S.LabelDepartment>
         <S.ButtonSubmit type="submit">Save</S.ButtonSubmit>
       </S.Form>
-      {/* npm plugin react-modal-mrl Documentation -> https://www.npmjs.com/package/react-modal-mrl */}
+      {/* npm package react-modal-mrl Documentation -> https://www.npmjs.com/package/react-modal-mrl */}
       <Modal
         show={modal}
         close={triggerModal}
         closeIcon={closeIcon}
-        title="Employee saved"
+        title="Employee added"
       >
-        <p>
+        <S.EmployeeName>
           {formValues.firstName} {formValues.lastName}
-        </p>
-        <p>Department: {formValues.department}</p>
-        <Link to="/employee-list">See current employees</Link>
+        </S.EmployeeName>
+        <S.EmployeeInfosWrapper>
+          <p>Start date: {formValues.startDate}</p>
+          <p>Department: {formValues.department}</p>
+        </S.EmployeeInfosWrapper>
+        <S.LinkToCurrentEmployees to="/employee-list">
+          list of employees
+        </S.LinkToCurrentEmployees>
       </Modal>
     </>
   );

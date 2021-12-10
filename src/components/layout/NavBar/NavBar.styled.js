@@ -1,6 +1,6 @@
 import styled from "styled-components";
 import { Link } from "react-router-dom";
-import { styleVariables } from "../../utils/styles/variables";
+import { styleVariables } from "../../../utils/styles/variables";
 
 export const Nav = styled.nav`
   position: sticky;
