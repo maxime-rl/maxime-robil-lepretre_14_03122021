@@ -9,7 +9,7 @@ import * as S from "./Select.styled";
  * @param {func} onChange
  * @param {array} dataOptions
  * @param {bool} required
- * @returns {ReacElement}
+ * @returns {ReactElement}
  */
 export default function Select({
   name,
