@@ -18,8 +18,8 @@ export const saveToLocalStorage = (data) => {
  * Function to check if the user's local storage contains HRnet data,
  * if not, we push the data
  * @name checkedLocalStorage
- * @param {*} employees
- * @param {*} mockEmployees
+ * @param {array} employees
+ * @param {array} mockEmployees
  */
 export default function checkedLocalStorage(employees, mockEmployees) {
   if (!employees) {

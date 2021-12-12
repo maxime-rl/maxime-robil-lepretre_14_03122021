@@ -30,6 +30,8 @@ export const Form = styled.form`
 
 export const Input = styled.input`
   width: 98%;
+  border: 1px solid gray;
+  border-radius: 0.3rem;
 `;
 
 export const P = styled.p`
@@ -106,10 +108,11 @@ export const ButtonSubmit = styled.button`
   grid-area: button-submit;
   margin: ${styleVariables.measureBasic} 0;
   width: 100%;
-  height: 3.3rem;
+  height: 3.16rem;
 `;
 
-export const ErrorMessage = styled.small`
+export const ErrorMessage = styled.span`
+  margin-left: 0.3rem;
   font-size: 1.2rem;
   color: red;
 `;

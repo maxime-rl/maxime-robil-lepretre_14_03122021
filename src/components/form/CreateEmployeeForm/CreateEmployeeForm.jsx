@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import { saveToLocalStorage } from "../../../utils/divers/handleLocalStorage";
+import dateInMs from "../../../utils/divers/dateInMs";
 import { Modal } from "react-modal-mrl";
 import { DatePicker } from "../index";
 import { Select } from "../index";
@@ -14,7 +15,18 @@ import * as S from "./CreateEmployeeForm.styled";
  */
 export default function CreateEmployeeForm() {
   const [modal, setModal] = useState(false);
-  const [error, setError] = useState("");
+  const [formErrors, setFormErrors] = useState({
+    firstName: "",
+    lastName: "",
+    dateOfBirth: "",
+    startDate: "",
+    date: "",
+    street: "",
+    city: "",
+    state: "",
+    zipCode: "",
+    department: "",
+  });
   const [formValues, setFormValues] = useState({
     firstName: "",
     lastName: "",
@@ -22,26 +34,45 @@ export default function CreateEmployeeForm() {
     startDate: "",
     street: "",
     city: "",
-    state: "AL",
+    state: "",
     zipCode: "",
-    department: "Engineering",
+    department: "",
   });
 
-  /**
-   * Regex pattern for first name, last name and city entries,
-   * and utils to control date entries
-   */
-  const nameAndCityPattern = /^([A-Za-zÀ-ÿ][-,a-z. ']+[ ]*)+$/;
-  /****************************************************************/
-  let dateTodayToIsoString = new Date().toISOString().substr(0, 10);
-  /****************************************************************/
-  let dateToday = new Date();
-  let year = dateToday.getFullYear();
-  let month = dateToday.getMonth();
-  let day = dateToday.getDate();
-  let legalAgeDateToIsoString = new Date(year - 18, month, day)
+  // Regex pattern for first name, last name, city and street
+  const streetPattern = /^\d+\s[A-z]+\s[A-z]+/;
+  const nameAndCityPattern =
+    /^[a-zA-ZàáâäãåąčćęèéêëėįìíîïłńòóôöõøùúûüųūÿýżźñçčšžÀÁÂÄÃÅĄĆČĖĘÈÉÊËÌÍÎÏĮŁŃÒÓÔÖÕØÙÚÛÜŲŪŸÝŻŹÑßÇŒÆČŠŽ∂ð ,.'-]+$/u;
+
+  // Constants to control dates
+  const dateToday = new Date();
+  const year = dateToday.getFullYear();
+  const month = dateToday.getMonth();
+  const day = dateToday.getDate();
+  const dateTodayISO = new Date().toISOString().substr(0, 10);
+  const legalAgeDateISO = new Date(year - 18, month, day)
     .toISOString()
     .substr(0, 10);
+  const deadline = year - 150;
+
+  /**
+   * @name hideUIError
+   * @param {object} input
+   */
+  const showUIError = (input) => {
+    input.style.border = "1px solid red";
+    input.previousSibling.style.color = "red";
+  };
+
+  /**
+   * @name hideUIError
+   * @param {object} input
+   */
+  const hideUIError = (input) => {
+    setFormErrors({ ...formErrors, [input.name]: "" });
+    input.style.border = "1px solid gray";
+    input.previousSibling.style.color = "#1c1c1c";
+  };
 
   /**
    * @name checkedNameOrCityInput
@@ -50,14 +81,26 @@ export default function CreateEmployeeForm() {
    */
   const checkedNameOrCityInput = (input) => {
     if (input.value.trim().length < 3) {
-      setError(`⚠️ The ${input.name} is too short`);
+      setFormErrors({
+        ...formErrors,
+        [input.name]: ": 3 characters minimum ⚠️",
+      });
+      console.log(typeof input);
+      showUIError(input);
+
       return false;
     }
     if (!nameAndCityPattern.test(input.value.trim())) {
-      setError(`⚠️ The ${input.name} is not in the correct format`);
+      setFormErrors({
+        ...formErrors,
+        [input.name]: ": contains invalid characters ⚠️",
+      });
+      showUIError(input);
+
       return false;
     } else {
-      setError("");
+      setFormErrors("");
+
       return true;
     }
   };
@@ -68,11 +111,17 @@ export default function CreateEmployeeForm() {
    * @returns {boolean}
    */
   const checkedStreetInput = (input) => {
-    if (input.value.trim().length < 3) {
-      setError(`⚠️ The ${input.name} is too short`);
+    if (!streetPattern.test(input.value.trim())) {
+      setFormErrors({
+        ...formErrors,
+        [input.name]: ": wrong format (ex: 65 Uriel Point) ⚠️",
+      });
+      showUIError(input);
+
       return false;
     } else {
-      setError("");
+      setFormErrors("");
+
       return true;
     }
   };
@@ -83,15 +132,28 @@ export default function CreateEmployeeForm() {
    * @returns {boolean}
    */
   const checkedDateInput = (input) => {
-    let currentYear = new Date().getFullYear();
-    let deadline = currentYear - 150;
     let selectedDate = input.value.split("-")[0];
 
     if (selectedDate < deadline) {
-      setError(`⚠️ ${input.name} is not valid`);
+      setFormErrors({
+        ...formErrors,
+        [input.name]: ": over 150 years 🙃",
+      });
+      showUIError(input);
+
+      return false;
+    }
+    if (selectedDate > dateTodayISO) {
+      setFormErrors({
+        ...formErrors,
+        [input.name]: ": future is not available 😬",
+      });
+      showUIError(input);
+
       return false;
     } else {
-      setError("");
+      setFormErrors("");
+
       return true;
     }
   };
@@ -102,17 +164,58 @@ export default function CreateEmployeeForm() {
    * @returns {boolean}
    */
   const checkedZipCodeInput = (input) => {
-    if (input.value < 1) {
-      setError("⚠️ The zip code must be positive");
+    if (input.value <= 0) {
+      setFormErrors({
+        ...formErrors,
+        [input.name]: ": must be greater than 0 ⚠️",
+      });
+      showUIError(input);
+
       return false;
     } else {
-      setError("");
+      setFormErrors("");
+
       return true;
     }
   };
 
+  /**
+   * Basic handle Input Change -> think about refactoring !
+   * @name handleInputChange
+   * @param {event} e
+   */
   const handleInputChange = (e) => {
-    setFormValues({ ...formValues, [e.target.name]: e.target.value });
+    const currentInput = e.target;
+    const selectedDate = currentInput.value.split("-")[0];
+
+    setFormValues({ ...formValues, [currentInput.name]: currentInput.value });
+
+    if (currentInput.type === "text") {
+      if (currentInput.name === "street") {
+        if (
+          currentInput.value.trim() === "" ||
+          streetPattern.test(currentInput.value.trim())
+        ) {
+          hideUIError(currentInput);
+        }
+      } else if (
+        currentInput.value.trim() === "" ||
+        currentInput.value.trim().length < 3 ||
+        nameAndCityPattern.test(currentInput.value.trim())
+      ) {
+        hideUIError(currentInput);
+      }
+    } else if (currentInput.type === "date") {
+      if (currentInput.name === "dateOfBirth" && selectedDate > deadline) {
+        hideUIError(currentInput);
+      } else {
+        hideUIError(currentInput);
+      }
+    } else {
+      if (currentInput.value >= 0) {
+        hideUIError(currentInput);
+      }
+    }
   };
 
   /**
@@ -122,6 +225,11 @@ export default function CreateEmployeeForm() {
   const handleSubmit = (e) => {
     e.preventDefault();
 
+    // Constants and variables to check the legal age of the employee (18)
+    const employeeStartDate = dateInMs(e.target.startDate.value);
+    let employeeBirthday = dateInMs(e.target.dateOfBirth.value);
+    const employeeBirthdayMore18 = (employeeBirthday += 567993600000);
+
     if (
       checkedNameOrCityInput(e.target.firstName) &&
       checkedNameOrCityInput(e.target.lastName) &&
@@ -129,15 +237,19 @@ export default function CreateEmployeeForm() {
       checkedNameOrCityInput(e.target.city) &&
       checkedDateInput(e.target.dateOfBirth) &&
       checkedDateInput(e.target.startDate) &&
-      checkedZipCodeInput(e.target.zipCode)
+      checkedZipCodeInput(e.target.zipCode) &&
+      employeeStartDate >= employeeBirthdayMore18
     ) {
       setModal(!modal);
       saveToLocalStorage(formValues);
     } else {
+      if (employeeStartDate < employeeBirthdayMore18) {
+        console.log("the employee must be 18 years old ❌");
+      }
       // Slight detail for the user experience if there is an error on mobile
       if (window.matchMedia("(max-width: 890px)").matches) {
         window.scrollTo({
-          top: 0,
+          top: 110,
           behavior: "smooth",
         });
       }
@@ -153,53 +265,62 @@ export default function CreateEmployeeForm() {
       startDate: "",
       street: "",
       city: "",
-      state: "AL",
+      state: "",
       zipCode: "",
-      department: "Engineering",
+      department: "",
     });
   };
 
   return (
     <>
       <S.Form onSubmit={handleSubmit}>
-        <S.ErrorMessage>{error}</S.ErrorMessage>
         <S.LabelFirstName>
-          <S.P>First Name</S.P>
+          <S.P>
+            First Name
+            <S.ErrorMessage>{formErrors.firstName}</S.ErrorMessage>
+          </S.P>
           <S.Input
             name="firstName"
             type="text"
             value={formValues.firstName}
             onChange={handleInputChange}
-            required
+            required={true}
           />
         </S.LabelFirstName>
         <S.LabelLastName>
-          <S.P>Last Name</S.P>
+          <S.P>
+            Last Name<S.ErrorMessage>{formErrors.lastName}</S.ErrorMessage>
+          </S.P>
           <S.Input
             name="lastName"
             type="text"
             value={formValues.lastName}
             onChange={handleInputChange}
-            required
+            required={true}
           />
         </S.LabelLastName>
         <S.DateWrapper>
           <label>
-            <S.P>Date of Birth</S.P>
+            <S.P>
+              Date of Birth
+              <S.ErrorMessage>{formErrors.dateOfBirth}</S.ErrorMessage>
+            </S.P>
             <DatePicker
               name={"dateOfBirth"}
               value={formValues.dateOfBirth}
-              max={legalAgeDateToIsoString}
+              max={legalAgeDateISO}
               onChange={handleInputChange}
               required={true}
             />
           </label>
           <label>
-            <S.P>Start Date</S.P>
+            <S.P>
+              Start Date<S.ErrorMessage>{formErrors.startDate}</S.ErrorMessage>
+            </S.P>
             <DatePicker
               name={"startDate"}
               value={formValues.startDate}
-              max={dateTodayToIsoString}
+              max={dateTodayISO}
               onChange={handleInputChange}
               required={true}
             />
@@ -207,53 +328,63 @@ export default function CreateEmployeeForm() {
         </S.DateWrapper>
         <S.AddressTitle>Address</S.AddressTitle>
         <S.LabelStreet>
-          <S.P>Street</S.P>
+          <S.P>
+            Street<S.ErrorMessage>{formErrors.street}</S.ErrorMessage>
+          </S.P>
           <S.Input
             name="street"
             type="text"
             value={formValues.street}
             onChange={handleInputChange}
-            required
+            required={true}
           />
         </S.LabelStreet>
         <S.LabelCity>
-          <S.P>City</S.P>
+          <S.P>
+            City<S.ErrorMessage>{formErrors.city}</S.ErrorMessage>
+          </S.P>
           <S.Input
             name="city"
             type="text"
             value={formValues.city}
             onChange={handleInputChange}
-            required
+            required={true}
           />
         </S.LabelCity>
         <S.LabelState>
-          <S.P>State</S.P>
+          <S.P>
+            State<S.ErrorMessage>{formErrors.state}</S.ErrorMessage>
+          </S.P>
           <Select
             name={"state"}
             value={formValues.state}
             onChange={handleInputChange}
             dataOptions={states}
-            required
+            required={true}
           ></Select>
         </S.LabelState>
         <S.LabelZipeCode>
-          <S.P>Zip Code</S.P>
+          <S.P>
+            Zip Code<S.ErrorMessage>{formErrors.zipCode}</S.ErrorMessage>
+          </S.P>
           <S.Input
             name="zipCode"
             type="number"
             value={formValues.zipCode}
             onChange={handleInputChange}
-            required
+            required={true}
           />
         </S.LabelZipeCode>
         <S.LabelDepartment>
-          <S.P>Department</S.P>
+          <S.P>
+            Department<S.ErrorMessage>{formErrors.department}</S.ErrorMessage>
+          </S.P>
           <Select
             name={"department"}
             value={formValues.department}
             onChange={handleInputChange}
             dataOptions={departments}
-            required
+            required={true}
           ></Select>
         </S.LabelDepartment>
         <S.ButtonSubmit type="submit">Save</S.ButtonSubmit>

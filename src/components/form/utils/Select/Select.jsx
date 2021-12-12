@@ -9,7 +9,7 @@ import * as S from "./Select.styled";
  * @param {func} onChange
  * @param {array} dataOptions
  * @param {bool} required
- * @returns
+ * @returns {ReactElement}
  */
 export default function Select({
   name,
@@ -20,6 +20,7 @@ export default function Select({
 }) {
   return (
     <S.Select name={name} value={value} onChange={onChange} required={required}>
+      <option value="">-- select an {name} --</option>
       {dataOptions
         .sort((a, b) => (a.name.toUpperCase() > b.name.toUpperCase() ? 1 : -1))
         .map((data, index) => (
