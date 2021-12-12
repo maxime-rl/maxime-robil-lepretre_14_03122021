@@ -940,14 +940,6 @@
     "@babel/helper-create-regexp-features-plugin" "^7.16.0"
     "@babel/helper-plugin-utils" "^7.14.5"
 
-"@babel/polyfill@^7.12.1":
-  "integrity" "sha512-X0pi0V6gxLi6lFZpGmeNa4zxtwEmCs42isWLNjZZDE0Y8yVfgu0T2OAHlzBbdYlqbW/YXVvoBHpATEM+goCj8g=="
-  "resolved" "https://registry.npmjs.org/@babel/polyfill/-/polyfill-7.12.1.tgz"
-  "version" "7.12.1"
-  dependencies:
-    "core-js" "^2.6.5"
-    "regenerator-runtime" "^0.13.4"
-
 "@babel/preset-env@^7.12.1", "@babel/preset-env@^7.8.4":
   "integrity" "sha512-v0QtNd81v/xKj4gNKeuAerQ/azeNn/G1B1qMLeXOcV8+4TWlD2j3NV1u8q29SDFBXx/NBq5kyEAO+0mpRgacjA=="
   "resolved" "https://registry.npmjs.org/@babel/preset-env/-/preset-env-7.16.4.tgz"
@@ -1152,7 +1144,7 @@
     "core-js-pure" "^3.19.0"
     "regenerator-runtime" "^0.13.4"
 
-"@babel/runtime@^7.10.2", "@babel/runtime@^7.11.2", "@babel/runtime@^7.12.5", "@babel/runtime@^7.5.5", "@babel/runtime@^7.7.2", "@babel/runtime@^7.7.6", "@babel/runtime@^7.8.4":
+"@babel/runtime@^7.10.2", "@babel/runtime@^7.11.2", "@babel/runtime@^7.12.5", "@babel/runtime@^7.16.3", "@babel/runtime@^7.5.5", "@babel/runtime@^7.7.2", "@babel/runtime@^7.7.6", "@babel/runtime@^7.8.4":
   "integrity" "sha512-WBwekcqacdY2e9AF/Q7WLFUWmdJGJTkbjqTjoMDgXkVZ3ZRUvOPsLb5KdwISoQVsbP+DQzVZW4Zhci0DvpbNTQ=="
   "resolved" "https://registry.npmjs.org/@babel/runtime/-/runtime-7.16.3.tgz"
   "version" "7.16.3"
@@ -1789,11 +1781,6 @@
   "version" "7.14.2"
   dependencies:
     "@babel/types" "^7.3.0"
-
-"@types/core-js@^2.5.5":
-  "integrity" "sha512-C4vwOHrhsvxn7UFyk4NDQNUpgNKdWsT/bL39UWyD75KSEOObZSKa9mYDOCM5FGeJG2qtbG0XiEbUKND2+j0WOg=="
-  "resolved" "https://registry.npmjs.org/@types/core-js/-/core-js-2.5.5.tgz"
-  "version" "2.5.5"
 
 "@types/eslint@^7.2.6":
   "integrity" "sha512-VNcvioYDH8/FxaeTKkM4/TiTwt6pBV9E3OfGmvaw8tPl0rrHCJ4Ll15HRT+pMiFAf/MLQvAzC+6RzUMEL9Ceng=="
@@ -3672,11 +3659,6 @@
   "version" "3.19.2"
 
 "core-js@^2.4.0":
-  "integrity" "sha512-Kb2wC0fvsWfQrgk8HU5lW6U/Lcs8+9aaYcy4ZFc6DDlo4nZ7n70dEgE5rtR0oG6ufKDUnrwfWL1mXR5ljDatrQ=="
-  "resolved" "https://registry.npmjs.org/core-js/-/core-js-2.6.12.tgz"
-  "version" "2.6.12"
-
-"core-js@^2.6.5":
   "integrity" "sha512-Kb2wC0fvsWfQrgk8HU5lW6U/Lcs8+9aaYcy4ZFc6DDlo4nZ7n70dEgE5rtR0oG6ufKDUnrwfWL1mXR5ljDatrQ=="
   "resolved" "https://registry.npmjs.org/core-js/-/core-js-2.6.12.tgz"
   "version" "2.6.12"
@@ -9376,12 +9358,12 @@
   "resolved" "https://registry.npmjs.org/react-is/-/react-is-17.0.2.tgz"
   "version" "17.0.2"
 
-"react-modal-mrl@^1.1.5":
-  "integrity" "sha512-goe7KD30YyvQP9xZReza0Tz5NO4LegBcLsH/gLNpZ9yhZF2TVRd4yX3H0cT7TS02lNIz5psvgS4HG70gqBGA7A=="
-  "resolved" "https://registry.npmjs.org/react-modal-mrl/-/react-modal-mrl-1.1.5.tgz"
-  "version" "1.1.5"
+"react-modal-mrl@^1.1.6":
+  "integrity" "sha512-IJF0RBFH+OD8e7/OvRpPL9uXmqcZ4DK9BVn9tTuGF3QdhPwCfcL2KeZiVO61+tHDRbDl5aoo+MnMqcFlVeYFZw=="
+  "resolved" "https://registry.npmjs.org/react-modal-mrl/-/react-modal-mrl-1.1.6.tgz"
+  "version" "1.1.6"
   dependencies:
-    "@babel/polyfill" "^7.12.1"
+    "@babel/runtime" "^7.16.3"
     "@testing-library/jest-dom" "^5.11.4"
     "@testing-library/react" "^11.1.0"
     "@testing-library/user-event" "^12.1.10"
