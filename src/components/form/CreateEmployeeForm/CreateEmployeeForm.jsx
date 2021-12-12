@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import { saveToLocalStorage } from "../../../utils/divers/handleLocalStorage";
+import dateInMs from "../../../utils/divers/dateInMs";
 import { Modal } from "react-modal-mrl";
 import { DatePicker } from "../index";
 import { Select } from "../index";
@@ -19,6 +20,7 @@ export default function CreateEmployeeForm() {
     lastName: "",
     dateOfBirth: "",
     startDate: "",
+    date: "",
     street: "",
     city: "",
     state: "",
@@ -184,7 +186,7 @@ export default function CreateEmployeeForm() {
    */
   const handleInputChange = (e) => {
     const currentInput = e.target;
-    let selectedDate = currentInput.value.split("-")[0];
+    const selectedDate = currentInput.value.split("-")[0];
 
     setFormValues({ ...formValues, [currentInput.name]: currentInput.value });
 
@@ -223,6 +225,11 @@ export default function CreateEmployeeForm() {
   const handleSubmit = (e) => {
     e.preventDefault();
 
+    // Constants and variables to check the legal age of the employee (18)
+    const employeeStartDate = dateInMs(e.target.startDate.value);
+    let employeeBirthday = dateInMs(e.target.dateOfBirth.value);
+    const employeeBirthdayMore18 = (employeeBirthday += 567993600000);
+
     if (
       checkedNameOrCityInput(e.target.firstName) &&
       checkedNameOrCityInput(e.target.lastName) &&
@@ -230,11 +237,15 @@ export default function CreateEmployeeForm() {
       checkedNameOrCityInput(e.target.city) &&
       checkedDateInput(e.target.dateOfBirth) &&
       checkedDateInput(e.target.startDate) &&
-      checkedZipCodeInput(e.target.zipCode)
+      checkedZipCodeInput(e.target.zipCode) &&
+      employeeStartDate >= employeeBirthdayMore18
     ) {
       setModal(!modal);
       saveToLocalStorage(formValues);
     } else {
+      if (employeeStartDate < employeeBirthdayMore18) {
+        console.log("the employee must be 18 years old ❌");
+      }
       // Slight detail for the user experience if there is an error on mobile
       if (window.matchMedia("(max-width: 890px)").matches) {
         window.scrollTo({
