@@ -114,6 +114,14 @@ export const ButtonSubmit = styled.button`
 export const ErrorMessage = styled.span`
   margin-left: 0.3rem;
   font-size: 1.2rem;
+  font-weight: 400;
+  color: red;
+`;
+
+export const ErrorLegalAgeMessage = styled.span`
+  position: relative;
+  top: 1rem;
+  font-size: 1.2rem;
   color: red;
 `;
 
