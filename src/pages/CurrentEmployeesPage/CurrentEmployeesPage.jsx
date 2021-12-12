@@ -1,8 +1,6 @@
 import React, { useEffect } from "react";
 import { CurrentEmployeesTable } from "../../components";
 import { currentEmployeesTableHead } from "../../components/table/utils/currentEmployeesTableHead";
-import checkedLocalStorage from "../../utils/divers/handleLocalStorage";
-import { mockEmployees } from "../../utils/data/mockEmployees";
 
 /**
  * @name CurrentEmployeesPage
@@ -10,7 +8,6 @@ import { mockEmployees } from "../../utils/data/mockEmployees";
  */
 export default function CurrentEmployeesPage() {
   const employees = JSON.parse(localStorage.getItem("HRnetEmployeesSession"));
-  checkedLocalStorage(employees, mockEmployees);
 
   useEffect(() => {
     document.title = "Current employees";

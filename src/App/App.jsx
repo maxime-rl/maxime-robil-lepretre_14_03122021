@@ -1,3 +1,4 @@
+import React, { useEffect } from "react";
 import { BrowserRouter } from "react-router-dom";
 import Routing from "../Routing/Routing";
 import ScrollToTop from "../utils/divers/ScrollToTop";
@@ -16,8 +17,10 @@ function App() {
    * If the key: "HRnetEmployeesSession" is not present in the local storage of the user's browser,
    * we push fake employees in local storage
    */
-  const employees = localStorage.getItem("HRnetEmployeesSession");
-  checkedLocalStorage(employees, mockEmployees);
+  useEffect(() => {
+    const employees = localStorage.getItem("HRnetEmployeesSession");
+    checkedLocalStorage(employees, mockEmployees);
+  }, []);
 
   return (
     <BrowserRouter>
