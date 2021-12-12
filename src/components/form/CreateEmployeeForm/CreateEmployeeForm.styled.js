@@ -117,14 +117,29 @@ export const ErrorMessage = styled.span`
   color: red;
 `;
 
+export const ModalWrapper = styled.div`
+  margin: 0 0 1.5rem 0;
+`;
+
 export const EmployeeName = styled.p`
+  margin: 2.5rem 0;
   font-weight: 500;
+
+  @media (min-width: 891px) {
+    margin: 2.5rem 0 0.5rem 0;
+  }
 `;
 
 export const EmployeeInfosWrapper = styled.div`
+  margin: 0 0 2rem 0;
+
   @media (min-width: 891px) {
     display: flex;
     gap: 2.5rem;
+  }
+
+  p {
+    margin: 1rem 0;
   }
 `;
 

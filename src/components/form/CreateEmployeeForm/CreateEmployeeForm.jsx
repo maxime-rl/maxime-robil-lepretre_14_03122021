@@ -20,6 +20,7 @@ export default function CreateEmployeeForm() {
     lastName: "",
     dateOfBirth: "",
     startDate: "",
+    legalAge: "",
     date: "",
     street: "",
     city: "",
@@ -56,7 +57,7 @@ export default function CreateEmployeeForm() {
   const deadline = year - 150;
 
   /**
-   * @name hideUIError
+   * @name showUIError
    * @param {object} input
    */
   const showUIError = (input) => {
@@ -142,15 +143,6 @@ export default function CreateEmployeeForm() {
       showUIError(input);
 
       return false;
-    }
-    if (selectedDate > dateTodayISO) {
-      setFormErrors({
-        ...formErrors,
-        [input.name]: ": future is not available 😬",
-      });
-      showUIError(input);
-
-      return false;
     } else {
       setFormErrors("");
 
@@ -180,6 +172,26 @@ export default function CreateEmployeeForm() {
   };
 
   /**
+   * @name checkedLegalAge
+   * @param {number} startDate
+   * @param {number} birthdayOver18
+   * @returns {boolean}
+   */
+  const checkedLegalAge = (startDate, birthdayOver18) => {
+    if (startDate < birthdayOver18) {
+      setFormErrors({
+        ...formErrors,
+        legalAge: "❌ The employee must be 18 years old",
+      });
+      return false;
+    } else {
+      setFormErrors({ ...formErrors, legalAge: "" });
+
+      return true;
+    }
+  };
+
+  /**
    * Basic handle Input Change -> think about refactoring !
    * @name handleInputChange
    * @param {event} e
@@ -188,8 +200,19 @@ export default function CreateEmployeeForm() {
     const currentInput = e.target;
     const selectedDate = currentInput.value.split("-")[0];
 
+    // Constants and variables to control dates input,
+    // need to compare and verify the legal age of an employee,
+    const startDateInputDOM = document.querySelector('input[name="startDate"]');
+    const birthDateInputDOM = document.querySelector(
+      'input[name="dateOfBirth"]'
+    );
+    let currentDateInMs = dateInMs(currentInput.value);
+    let employeeStartDate = dateInMs(startDateInputDOM.value);
+    let employeeBirthday = dateInMs(birthDateInputDOM.value);
+
     setFormValues({ ...formValues, [currentInput.name]: currentInput.value });
 
+    // Consider trying to simplify listening and error handling...
     if (currentInput.type === "text") {
       if (currentInput.name === "street") {
         if (
@@ -206,8 +229,18 @@ export default function CreateEmployeeForm() {
         hideUIError(currentInput);
       }
     } else if (currentInput.type === "date") {
-      if (currentInput.name === "dateOfBirth" && selectedDate > deadline) {
-        hideUIError(currentInput);
+      if (
+        currentInput.name === "dateOfBirth" &&
+        selectedDate > deadline &&
+        employeeStartDate > (currentDateInMs += 567993600000)
+      ) {
+        setFormErrors({ ...formErrors, legalAge: "" });
+      } else if (
+        currentInput.name === "startDate" &&
+        selectedDate > deadline &&
+        currentDateInMs > (employeeBirthday += 567993600000)
+      ) {
+        setFormErrors({ ...formErrors, legalAge: "" });
       } else {
         hideUIError(currentInput);
       }
@@ -228,7 +261,7 @@ export default function CreateEmployeeForm() {
     // Constants and variables to check the legal age of the employee (18)
     const employeeStartDate = dateInMs(e.target.startDate.value);
     let employeeBirthday = dateInMs(e.target.dateOfBirth.value);
-    const employeeBirthdayMore18 = (employeeBirthday += 567993600000);
+    const employeeBirthdayOver18 = (employeeBirthday += 567993600000);
 
     if (
       checkedNameOrCityInput(e.target.firstName) &&
@@ -238,14 +271,11 @@ export default function CreateEmployeeForm() {
       checkedDateInput(e.target.dateOfBirth) &&
       checkedDateInput(e.target.startDate) &&
       checkedZipCodeInput(e.target.zipCode) &&
-      employeeStartDate >= employeeBirthdayMore18
+      checkedLegalAge(employeeStartDate, employeeBirthdayOver18)
     ) {
       setModal(!modal);
       saveToLocalStorage(formValues);
     } else {
-      if (employeeStartDate < employeeBirthdayMore18) {
-        console.log("the employee must be 18 years old ❌");
-      }
       // Slight detail for the user experience if there is an error on mobile
       if (window.matchMedia("(max-width: 890px)").matches) {
         window.scrollTo({
@@ -263,6 +293,7 @@ export default function CreateEmployeeForm() {
       lastName: "",
       dateOfBirth: "",
       startDate: "",
+      legalAge: "",
       street: "",
       city: "",
       state: "",
@@ -274,6 +305,7 @@ export default function CreateEmployeeForm() {
   return (
     <>
       <S.Form onSubmit={handleSubmit}>
+        <S.ErrorMessage>{formErrors.legalAge}</S.ErrorMessage>
         <S.LabelFirstName>
           <S.P>
             First Name
@@ -394,18 +426,20 @@ export default function CreateEmployeeForm() {
         show={modal}
         close={triggerModal}
         closeIcon={closeIcon}
-        title="Employee added"
+        title="Successful registration"
       >
-        <S.EmployeeName>
-          {formValues.firstName} {formValues.lastName}
-        </S.EmployeeName>
-        <S.EmployeeInfosWrapper>
-          <p>Start date: {formValues.startDate}</p>
-          <p>Department: {formValues.department}</p>
-        </S.EmployeeInfosWrapper>
-        <S.LinkToCurrentEmployees to="/employee-list">
-          list of employees
-        </S.LinkToCurrentEmployees>
+        <S.ModalWrapper>
+          <S.EmployeeName>
+            {formValues.firstName} {formValues.lastName}
+          </S.EmployeeName>
+          <S.EmployeeInfosWrapper>
+            <p>Start: {formValues.startDate}</p>
+            <p>Dptm: {formValues.department}</p>
+          </S.EmployeeInfosWrapper>
+          <S.LinkToCurrentEmployees to="/employee-list">
+            list of employees
+          </S.LinkToCurrentEmployees>
+        </S.ModalWrapper>
       </Modal>
     </>
   );
