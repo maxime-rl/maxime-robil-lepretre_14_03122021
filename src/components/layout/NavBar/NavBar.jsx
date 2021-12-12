@@ -18,7 +18,7 @@ export default function NavBar() {
         </li>
         <li>
           <NavLink activeclassname="active" to="/employee-list">
-            Current employees
+            Employees
           </NavLink>
         </li>
       </S.NavLinkList>

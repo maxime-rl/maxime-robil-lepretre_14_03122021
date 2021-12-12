@@ -1,6 +1,6 @@
 import React, { useEffect } from "react";
-import { CurrentEmployeesTable } from "../../components";
-import { currentEmployeesTableHead } from "../../components/table/utils/currentEmployeesTableHead";
+import { EmployeesTable } from "../../components";
+import { employeesTableHead } from "../../utils/data/employeesTableHead";
 import checkedLocalStorage from "../../utils/divers/handleLocalStorage";
 import { mockEmployees } from "../../utils/data/mockEmployees";
 
@@ -21,13 +21,10 @@ export default function CurrentEmployeesPage() {
   return (
     <>
       <header>
-        <h1>Current employees</h1>
+        <h1>Employees</h1>
       </header>
       <main>
-        <CurrentEmployeesTable
-          columns={currentEmployeesTableHead}
-          data={employees}
-        />
+        <EmployeesTable columns={employeesTableHead} data={employees} />
       </main>
     </>
   );

@@ -7,7 +7,7 @@ import {
 } from "react-table";
 import { GlobalFilter } from "../index";
 import PropTypes from "prop-types";
-import * as S from "./CurrentEmployeesTable.styled";
+import * as S from "./EmployeesTable.styled";
 
 /**
  * Hook react-table
