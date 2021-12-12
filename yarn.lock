@@ -9358,10 +9358,10 @@
   "resolved" "https://registry.npmjs.org/react-is/-/react-is-17.0.2.tgz"
   "version" "17.0.2"
 
-"react-modal-mrl@^1.1.7":
-  "integrity" "sha512-Xo5pBorHXx2/rQMfWM+Bfna5y/qbVJDwRmdAlCZSgQqQD27/R10gnXa/bbgXXZLRItk9yaexI4/Xbq1GZiYgFg=="
-  "resolved" "https://registry.npmjs.org/react-modal-mrl/-/react-modal-mrl-1.1.7.tgz"
-  "version" "1.1.7"
+"react-modal-mrl@^1.2.1":
+  "integrity" "sha512-cOscqyuKaEMJ+kUYmRqfqrlbjC6wdt0WHJoKtvXjvTj9BlvRhnoLGPXFQzMQUxammm5ITUUAxpZtF05oBGsJsg=="
+  "resolved" "https://registry.npmjs.org/react-modal-mrl/-/react-modal-mrl-1.2.1.tgz"
+  "version" "1.2.1"
   dependencies:
     "@babel/runtime" "^7.16.3"
     "@testing-library/jest-dom" "^5.11.4"
