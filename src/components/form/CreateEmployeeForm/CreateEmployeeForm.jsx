@@ -128,17 +128,17 @@ export default function CreateEmployeeForm() {
   };
 
   /**
-   * @name checkedDateInput
+   * @name checkedBirthdayInput
    * @param {object} input dateOfBirth|startDate
    * @returns {boolean}
    */
-  const checkedDateInput = (input) => {
+  const checkedBirthdayInput = (input) => {
     let selectedDate = input.value.split("-")[0];
 
     if (selectedDate < deadline) {
       setFormErrors({
         ...formErrors,
-        [input.name]: ": over 150 years 🙃",
+        [input.name]: ": over 150 years ⚠️",
       });
       showUIError(input);
 
@@ -151,17 +151,19 @@ export default function CreateEmployeeForm() {
   };
 
   /**
-   * @name checkedZipCodeInput
-   * @param {object} input zipeCode
+   * @name checkedStartDateInput
+   * @param {number} startDate
+   * @param {number} birthday
+   * @param {object} startDateInput
    * @returns {boolean}
    */
-  const checkedZipCodeInput = (input) => {
-    if (input.value <= 0) {
+  const checkedStartDateInput = (birthday, startDate, startDateInput) => {
+    if (birthday > startDate) {
       setFormErrors({
         ...formErrors,
-        [input.name]: ": must be greater than 0 ⚠️",
+        [startDateInput.name]: ": it's impossible ⚠️",
       });
-      showUIError(input);
+      showUIError(startDateInput);
 
       return false;
     } else {
@@ -186,6 +188,27 @@ export default function CreateEmployeeForm() {
       return false;
     } else {
       setFormErrors({ ...formErrors, legalAge: "" });
+
+      return true;
+    }
+  };
+
+  /**
+   * @name checkedZipCodeInput
+   * @param {object} input zipeCode
+   * @returns {boolean}
+   */
+  const checkedZipCodeInput = (input) => {
+    if (input.value <= 0) {
+      setFormErrors({
+        ...formErrors,
+        [input.name]: ": must be greater than 0 ⚠️",
+      });
+      showUIError(input);
+
+      return false;
+    } else {
+      setFormErrors("");
 
       return true;
     }
@@ -258,8 +281,11 @@ export default function CreateEmployeeForm() {
   const handleSubmit = (e) => {
     e.preventDefault();
 
-    // Constants and variables to check the legal age of the employee (18)
-    const employeeStartDate = dateInMs(e.target.startDate.value);
+    // Constants and variables to check the legal age of the employee (18),
+    // and compare the start date to the anniversary date
+    const employeeStartDateMs = dateInMs(e.target.startDate.value);
+    const employeeBirthdayMs = dateInMs(e.target.dateOfBirth.value);
+
     let employeeBirthday = dateInMs(e.target.dateOfBirth.value);
     const employeeBirthdayOver18 = (employeeBirthday += 567993600000);
 
@@ -268,10 +294,14 @@ export default function CreateEmployeeForm() {
       checkedNameOrCityInput(e.target.lastName) &&
       checkedStreetInput(e.target.street) &&
       checkedNameOrCityInput(e.target.city) &&
-      checkedDateInput(e.target.dateOfBirth) &&
-      checkedDateInput(e.target.startDate) &&
+      checkedBirthdayInput(e.target.dateOfBirth) &&
+      checkedStartDateInput(
+        employeeBirthdayMs,
+        employeeStartDateMs,
+        e.target.startDate
+      ) &&
       checkedZipCodeInput(e.target.zipCode) &&
-      checkedLegalAge(employeeStartDate, employeeBirthdayOver18)
+      checkedLegalAge(employeeStartDateMs, employeeBirthdayOver18)
     ) {
       setModal(!modal);
       saveToLocalStorage(formValues);
@@ -305,7 +335,7 @@ export default function CreateEmployeeForm() {
   return (
     <>
       <S.Form onSubmit={handleSubmit}>
-        <S.ErrorMessage>{formErrors.legalAge}</S.ErrorMessage>
+        <S.ErrorLegalAgeMessage>{formErrors.legalAge}</S.ErrorLegalAgeMessage>
         <S.LabelFirstName>
           <S.P>
             First Name
