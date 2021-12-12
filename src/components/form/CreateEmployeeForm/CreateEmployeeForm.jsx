@@ -45,11 +45,6 @@ export default function CreateEmployeeForm() {
   const nameAndCityPattern =
     /^[a-zA-ZàáâäãåąčćęèéêëėįìíîïłńòóôöõøùúûüųūÿýżźñçčšžÀÁÂÄÃÅĄĆČĖĘÈÉÊËÌÍÎÏĮŁŃÒÓÔÖÕØÙÚÛÜŲŪŸÝŻŹÑßÇŒÆČŠŽ∂ð ,.'-]+$/u;
 
-  // Constants to control dates input,
-  // need to compare and verify the legal age of an employee,
-  const birthDateInputDOM = document.querySelector('input[name="dateOfBirth"]');
-  const startDateInputDOM = document.querySelector('input[name="startDate"]');
-
   // Constants to control dates
   const dateToday = new Date();
   const year = dateToday.getFullYear();
@@ -205,6 +200,12 @@ export default function CreateEmployeeForm() {
     const currentInput = e.target;
     const selectedDate = currentInput.value.split("-")[0];
 
+    // Constants and variables to control dates input,
+    // need to compare and verify the legal age of an employee,
+    const startDateInputDOM = document.querySelector('input[name="startDate"]');
+    const birthDateInputDOM = document.querySelector(
+      'input[name="dateOfBirth"]'
+    );
     let currentDateInMs = dateInMs(currentInput.value);
     let employeeStartDate = dateInMs(startDateInputDOM.value);
     let employeeBirthday = dateInMs(birthDateInputDOM.value);
@@ -425,18 +426,20 @@ export default function CreateEmployeeForm() {
         show={modal}
         close={triggerModal}
         closeIcon={closeIcon}
-        title="Employee added"
+        title="Successful registration"
       >
-        <S.EmployeeName>
-          {formValues.firstName} {formValues.lastName}
-        </S.EmployeeName>
-        <S.EmployeeInfosWrapper>
-          <p>Start date: {formValues.startDate}</p>
-          <p>Department: {formValues.department}</p>
-        </S.EmployeeInfosWrapper>
-        <S.LinkToCurrentEmployees to="/employee-list">
-          list of employees
-        </S.LinkToCurrentEmployees>
+        <S.ModalWrapper>
+          <S.EmployeeName>
+            {formValues.firstName} {formValues.lastName}
+          </S.EmployeeName>
+          <S.EmployeeInfosWrapper>
+            <p>Start: {formValues.startDate}</p>
+            <p>Dptm: {formValues.department}</p>
+          </S.EmployeeInfosWrapper>
+          <S.LinkToCurrentEmployees to="/employee-list">
+            list of employees
+          </S.LinkToCurrentEmployees>
+        </S.ModalWrapper>
       </Modal>
     </>
   );
