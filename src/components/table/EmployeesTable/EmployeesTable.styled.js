@@ -64,14 +64,47 @@ export const Th = styled.th`
   }
 `;
 
-export const Pagination = styled.div`
+export const TableFooter = styled.div`
   display: flex;
+  flex-direction: column;
+  align-items: flex-start;
   justify-content: space-between;
-  align-items: center;
-  margin: ${styleVariables.measureBasic};
+  margin: 0 1.5rem 1.5rem 1.5rem;
+
+  @media (min-width: 700px) {
+    flex-direction: row;
+    align-items: center;
+    margin: ${styleVariables.measureBasic};
+  }
 
   p {
-    margin: 0;
+    margin: 0 0 1.5rem 0;
+
+    @media (min-width: 700px) {
+      margin: 0;
+    }
+  }
+`;
+
+export const Pagination = styled.div`
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  width: 100%;
+  gap: 1.5rem;
+
+  @media (min-width: 700px) {
+    flex-direction: row;
+    width: fit-content;
+    gap: 0;
+  }
+`;
+
+export const GoToPage = styled.span`
+  order: 1;
+
+  @media (min-width: 700px) {
+    order: 0;
   }
 `;
 
@@ -82,6 +115,10 @@ export const BtnWrapper = styled.div`
   min-width: 15rem;
   height: fit-content;
 
+  @media (min-width: 700px) {
+    margin-left: 3rem;
+  }
+
   button {
     display: flex;
     justify-content: center;
@@ -89,6 +126,14 @@ export const BtnWrapper = styled.div`
     width: 3.32rem;
     height: 3.32rem;
     cursor: pointer;
+  }
+
+  button:first-child {
+    margin-right: 0.5rem;
+  }
+
+  button:last-child {
+    margin-left: 0.5rem;
   }
 
   button[disabled] {

@@ -20,7 +20,7 @@ export default function Select({
 }) {
   return (
     <S.Select name={name} value={value} onChange={onChange} required={required}>
-      <option value="">-- select an {name} --</option>
+      <option value="">-- select a {name} --</option>
       {dataOptions
         .sort((a, b) => (a.name.toUpperCase() > b.name.toUpperCase() ? 1 : -1))
         .map((data, index) => (

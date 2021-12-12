@@ -7,7 +7,7 @@ import {
 } from "react-table";
 import { GlobalFilter } from "../index";
 import PropTypes from "prop-types";
-import * as S from "./CurrentEmployeesTable.styled";
+import * as S from "./EmployeesTable.styled";
 
 /**
  * Hook react-table
@@ -32,6 +32,8 @@ export default function CurrentEmployeesTable({ columns, data }) {
     canNextPage,
     canPreviousPage,
     pageOptions,
+    pageCount,
+    gotoPage,
     setPageSize,
   } = useTable(
     {
@@ -105,20 +107,43 @@ export default function CurrentEmployeesTable({ columns, data }) {
           })}
         </tbody>
       </S.Table>
-      <S.Pagination>
+      <S.TableFooter>
         <p>Total employees: {rows.length}</p>
-        <S.BtnWrapper>
-          <button onClick={() => previousPage()} disabled={!canPreviousPage}>
-            ◀️
-          </button>
-          <span>
-            {state.pageIndex + 1} of {pageOptions.length}
-          </span>
-          <button onClick={() => nextPage()} disabled={!canNextPage}>
-            ▶️
-          </button>
-        </S.BtnWrapper>
-      </S.Pagination>
+        <S.Pagination>
+          <S.GoToPage>
+            Go to page:{" "}
+            <input
+              type="number"
+              defaultValue={state.pageIndex + 1}
+              onChange={(e) => {
+                const page = e.target.value ? Number(e.target.value) - 1 : 0;
+                gotoPage(page);
+              }}
+              style={{ width: "6.45rem" }}
+            />
+          </S.GoToPage>
+          <S.BtnWrapper>
+            <button onClick={() => gotoPage(0)} disabled={!canPreviousPage}>
+              ⏪
+            </button>
+            <button onClick={() => previousPage()} disabled={!canPreviousPage}>
+              ◀️
+            </button>
+            <span>
+              {state.pageIndex + 1} of {pageOptions.length}
+            </span>
+            <button onClick={() => nextPage()} disabled={!canNextPage}>
+              ▶️
+            </button>
+            <button
+              onClick={() => gotoPage(pageCount - 1)}
+              disabled={!canNextPage}
+            >
+              ⏩
+            </button>
+          </S.BtnWrapper>
+        </S.Pagination>
+      </S.TableFooter>
     </S.Section>
   );
 }

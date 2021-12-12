@@ -17,10 +17,11 @@ function App() {
    * If the key: "HRnetEmployeesSession" is not present in the local storage of the user's browser,
    * we push fake employees in local storage
    */
+  const employees = localStorage.getItem("HRnetEmployeesSession");
+
   useEffect(() => {
-    const employees = localStorage.getItem("HRnetEmployeesSession");
     checkedLocalStorage(employees, mockEmployees);
-  }, []);
+  }, [employees]);
 
   return (
     <BrowserRouter>

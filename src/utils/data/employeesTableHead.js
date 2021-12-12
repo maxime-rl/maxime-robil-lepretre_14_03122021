@@ -1,4 +1,4 @@
-export const currentEmployeesTableHead = [
+export const employeesTableHead = [
   {
     Header: "First Name",
     accessor: "firstName",

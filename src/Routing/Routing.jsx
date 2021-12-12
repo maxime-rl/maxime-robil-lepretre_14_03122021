@@ -1,6 +1,6 @@
 import React from "react";
 import { Routes, Route } from "react-router-dom";
-import { CreateEmployeePage, CurrentEmployeesPage, ErrorPage } from "../pages";
+import { CreateEmployeePage, EmployeesPage, ErrorPage } from "../pages";
 
 /**
  * App routing
@@ -11,7 +11,7 @@ export default function Routing() {
   return (
     <Routes>
       <Route path="/" element={<CreateEmployeePage />} />
-      <Route path="/employee-list" element={<CurrentEmployeesPage />} />
+      <Route path="/employee-list" element={<EmployeesPage />} />
       <Route path="*" element={<ErrorPage />} />
     </Routes>
   );
