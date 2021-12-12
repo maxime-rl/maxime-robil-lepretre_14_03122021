@@ -1790,6 +1790,11 @@
   dependencies:
     "@babel/types" "^7.3.0"
 
+"@types/core-js@^2.5.5":
+  "integrity" "sha512-C4vwOHrhsvxn7UFyk4NDQNUpgNKdWsT/bL39UWyD75KSEOObZSKa9mYDOCM5FGeJG2qtbG0XiEbUKND2+j0WOg=="
+  "resolved" "https://registry.npmjs.org/@types/core-js/-/core-js-2.5.5.tgz"
+  "version" "2.5.5"
+
 "@types/eslint@^7.2.6":
   "integrity" "sha512-VNcvioYDH8/FxaeTKkM4/TiTwt6pBV9E3OfGmvaw8tPl0rrHCJ4Ll15HRT+pMiFAf/MLQvAzC+6RzUMEL9Ceng=="
   "resolved" "https://registry.npmjs.org/@types/eslint/-/eslint-7.29.0.tgz"
@@ -9371,10 +9376,10 @@
   "resolved" "https://registry.npmjs.org/react-is/-/react-is-17.0.2.tgz"
   "version" "17.0.2"
 
-"react-modal-mrl@^1.1.4":
-  "integrity" "sha512-I0gY9uJMQuVPhlX2C4h3sMF5XsuV8bkNC2yMDPQMtQ5EZarulxkZqXVjVj4zkV1eHZtTXuNmcLuU47n1si2ZFw=="
-  "resolved" "https://registry.npmjs.org/react-modal-mrl/-/react-modal-mrl-1.1.4.tgz"
-  "version" "1.1.4"
+"react-modal-mrl@^1.1.5":
+  "integrity" "sha512-goe7KD30YyvQP9xZReza0Tz5NO4LegBcLsH/gLNpZ9yhZF2TVRd4yX3H0cT7TS02lNIz5psvgS4HG70gqBGA7A=="
+  "resolved" "https://registry.npmjs.org/react-modal-mrl/-/react-modal-mrl-1.1.5.tgz"
+  "version" "1.1.5"
   dependencies:
     "@babel/polyfill" "^7.12.1"
     "@testing-library/jest-dom" "^5.11.4"
