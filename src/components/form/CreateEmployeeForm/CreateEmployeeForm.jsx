@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import { saveToLocalStorage } from "../../../utils/divers/handleLocalStorage";
 import dateInMs from "../../../utils/divers/dateInMs";
+import capitalizeFirstLetter from "../../../utils/divers/capitalizeFirstLetter";
 import { Modal } from "react-modal-mrl";
 import { DatePicker } from "../index";
 import { Select } from "../index";
@@ -41,7 +42,8 @@ export default function CreateEmployeeForm() {
   });
 
   // Regex pattern for first name, last name, city and street
-  const streetPattern = /^\d+\s[A-z]+\s[A-z]+/;
+  const streetPattern = /^\d{1,4}(?:[-\s]\d{1,4})?\s[A-z]+/;
+  const zipCodePattern = /^\d{4}(?:[-\s]\d{4})?$/;
   const nameAndCityPattern =
     /^[a-zA-ZàáâäãåąčćęèéêëėįìíîïłńòóôöõøùúûüųūÿýżźñçčšžÀÁÂÄÃÅĄĆČĖĘÈÉÊËÌÍÎÏĮŁŃÒÓÔÖÕØÙÚÛÜŲŪŸÝŻŹÑßÇŒÆČŠŽ∂ð ,.'-]+$/u;
 
@@ -86,7 +88,6 @@ export default function CreateEmployeeForm() {
         ...formErrors,
         [input.name]: ": 3 characters minimum ⚠️",
       });
-      console.log(typeof input);
       showUIError(input);
 
       return false;
@@ -115,7 +116,8 @@ export default function CreateEmployeeForm() {
     if (!streetPattern.test(input.value.trim())) {
       setFormErrors({
         ...formErrors,
-        [input.name]: ": wrong format (ex: 65 Uriel Point) ⚠️",
+        [input.name]:
+          ": wrong format (ex: 65 Uriel Point or 65-66 Uriel 5bis...) ⚠️",
       });
       showUIError(input);
 
@@ -138,7 +140,7 @@ export default function CreateEmployeeForm() {
     if (selectedDate < deadline) {
       setFormErrors({
         ...formErrors,
-        [input.name]: ": over 150 years ⚠️",
+        [input.name]: ": over 200 years... 🤔",
       });
       showUIError(input);
 
@@ -161,7 +163,7 @@ export default function CreateEmployeeForm() {
     if (birthday > startDate) {
       setFormErrors({
         ...formErrors,
-        [startDateInput.name]: ": it's impossible ⚠️",
+        [startDateInput.name]: ": under date of birth 🤔",
       });
       showUIError(startDateInput);
 
@@ -199,10 +201,10 @@ export default function CreateEmployeeForm() {
    * @returns {boolean}
    */
   const checkedZipCodeInput = (input) => {
-    if (input.value <= 0) {
+    if (!zipCodePattern.test(input.value.trim())) {
       setFormErrors({
         ...formErrors,
-        [input.name]: ": must be greater than 0 ⚠️",
+        [input.name]: ": wrong format (ex: 2569 or 8569-7854...) ⚠️",
       });
       showUIError(input);
 
@@ -233,7 +235,10 @@ export default function CreateEmployeeForm() {
     let employeeStartDate = dateInMs(startDateInputDOM.value);
     let employeeBirthday = dateInMs(birthDateInputDOM.value);
 
-    setFormValues({ ...formValues, [currentInput.name]: currentInput.value });
+    setFormValues({
+      ...formValues,
+      [currentInput.name]: capitalizeFirstLetter(currentInput.value),
+    });
 
     // Consider trying to simplify listening and error handling...
     if (currentInput.type === "text") {
@@ -242,6 +247,10 @@ export default function CreateEmployeeForm() {
           currentInput.value.trim() === "" ||
           streetPattern.test(currentInput.value.trim())
         ) {
+          hideUIError(currentInput);
+        }
+      } else if (currentInput.name === "zipCode") {
+        if (zipCodePattern.test(currentInput.value.trim())) {
           hideUIError(currentInput);
         }
       } else if (
@@ -265,10 +274,6 @@ export default function CreateEmployeeForm() {
       ) {
         setFormErrors({ ...formErrors, legalAge: "" });
       } else {
-        hideUIError(currentInput);
-      }
-    } else {
-      if (currentInput.value >= 0) {
         hideUIError(currentInput);
       }
     }
@@ -431,7 +436,7 @@ export default function CreateEmployeeForm() {
           </S.P>
           <S.Input
             name="zipCode"
-            type="number"
+            type="text"
             value={formValues.zipCode}
             onChange={handleInputChange}
             required={true}
