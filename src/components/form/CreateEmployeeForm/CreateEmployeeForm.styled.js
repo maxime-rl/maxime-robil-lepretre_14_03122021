@@ -58,11 +58,11 @@ export const DateWrapper = styled.div`
 
   input {
     padding: 0;
-    width: 99%;
+    width: 99.5%;
     height: 3rem;
 
-    @media (min-width: 500px) {
-      width: 98%;
+    @media (min-width: 891px) {
+      width: 99%;
     }
   }
 `;
@@ -121,10 +121,6 @@ export const ErrorLegalAgeMessage = styled.span`
 
 export const ModalWrapper = styled.div`
   margin: 0 0 1.5rem 0;
-
-  em {
-    font-weight: 500;
-  }
 `;
 
 export const EmployeeName = styled.p`
@@ -133,9 +129,13 @@ export const EmployeeName = styled.p`
   @media (min-width: 891px) {
     margin: 2.5rem 0 0.5rem 0;
   }
+
+  span {
+    font-weight: 500;
+  }
 `;
 
-export const EmployeeInfosWrapper = styled.div`
+export const EmployeeDetailsWrapper = styled.div`
   margin: 0 0 2rem 0;
 
   @media (min-width: 891px) {
@@ -145,6 +145,12 @@ export const EmployeeInfosWrapper = styled.div`
 
   p {
     margin: 1rem 0;
+  }
+`;
+
+export const EmployeeDetails = styled.p`
+  span {
+    font-weight: 500;
   }
 `;
 

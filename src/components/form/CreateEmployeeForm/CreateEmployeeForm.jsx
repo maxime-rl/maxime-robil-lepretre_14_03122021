@@ -196,12 +196,30 @@ export default function CreateEmployeeForm() {
    * @param {number} birthdayOver18
    * @returns {boolean}
    */
-  const checkedLegalAge = (startDate, birthdayOver18) => {
-    if (startDate < birthdayOver18) {
+  const checkedLegalAge = (
+    startDate,
+    birthdayOver18,
+    birthday,
+    startDateInput
+  ) => {
+    if (startDate < birthdayOver18 && birthday < startDate) {
       setFormErrors({
         ...formErrors,
         legalAge: "❌ The employee must be 18 years old",
+        [startDateInput.name]: "",
       });
+      startDateInput.style.border = "1px solid gray";
+      startDateInput.previousSibling.style.color = "#1c1c1c";
+
+      return false;
+    } else if (birthday > startDate) {
+      setFormErrors({
+        ...formErrors,
+        [startDateInput.name]: ": under date of birth 🤔",
+        legalAge: "",
+      });
+      showUIError(startDateInput);
+
       return false;
     } else {
       setFormErrors({ ...formErrors, legalAge: "" });
@@ -320,7 +338,12 @@ export default function CreateEmployeeForm() {
         employeeStartDateMs,
         e.target.startDate
       ) &&
-      checkedLegalAge(employeeStartDateMs, employeeBirthdayOver18) &&
+      checkedLegalAge(
+        employeeStartDateMs,
+        employeeBirthdayOver18,
+        employeeBirthdayMs,
+        e.target.startDate
+      ) &&
       checkedZipCodeInput(e.target.zipCode)
     ) {
       setModal(!modal);
@@ -483,18 +506,18 @@ export default function CreateEmployeeForm() {
         <S.ModalWrapper>
           <S.EmployeeName>
             Name:{" "}
-            <em>
+            <span>
               {formValues.firstName} {formValues.lastName}
-            </em>
+            </span>
           </S.EmployeeName>
-          <S.EmployeeInfosWrapper>
-            <p>
-              Start: <em>{formValues.startDate}</em>
-            </p>
-            <p>
-              Dptm: <em>{formValues.department}</em>
-            </p>
-          </S.EmployeeInfosWrapper>
+          <S.EmployeeDetailsWrapper>
+            <S.EmployeeDetails>
+              Start: <span>{formValues.startDate}</span>
+            </S.EmployeeDetails>
+            <S.EmployeeDetails>
+              Dptm: <span>{formValues.department}</span>
+            </S.EmployeeDetails>
+          </S.EmployeeDetailsWrapper>
           <S.LinkToCurrentEmployees to="/employee-list">
             list of employees
           </S.LinkToCurrentEmployees>
