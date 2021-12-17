@@ -1,22 +1,17 @@
 import React, { useState } from "react";
-
 // Components
 import { Modal } from "react-modal-mrl";
 import { Input } from "../index";
 import { Select } from "../index";
-
 // Utils functions
 import { saveToLocalStorage } from "../../../utils/divers/handleLocalStorage";
 import dateInMs from "../../../utils/divers/dateInMs";
 import capitalizeFirstLetter from "../../../utils/divers/capitalizeFirstLetter";
-
 // Utils datas (hard data for form selects)
 import { states } from "../../../utils/data/states";
 import { departments } from "../../../utils/data/departments";
-
 // Assets
 import closeIcon from "../../../assets/close-icon.svg";
-
 // Styles
 import * as S from "./CreateEmployeeForm.styled";
 
@@ -249,7 +244,11 @@ export default function CreateEmployeeForm() {
     }
   };
 
-  const handleInputByTypeText = (input) => {
+  /**
+   * @name handleInputByTypeText
+   * @param {object} input
+   */
+  const handleInputTypeText = (input) => {
     if (input.name === "street") {
       if (input.value.trim() === "" || streetPattern.test(input.value.trim())) {
         hideUIError(input);
@@ -267,7 +266,15 @@ export default function CreateEmployeeForm() {
     }
   };
 
-  const handleInputByTypeDate = (
+  /**
+   * @name handleInputByTypeDate
+   * @param {object} input
+   * @param {string} selectedDate
+   * @param {number} employeeStartDate
+   * @param {number} currentDateInMs
+   * @param {number} employeeBirthday
+   */
+  const handleInputTypeDate = (
     input,
     selectedDate,
     employeeStartDate,
@@ -316,9 +323,9 @@ export default function CreateEmployeeForm() {
     });
 
     if (currentInput.type === "text") {
-      handleInputByTypeText(currentInput);
+      handleInputTypeText(currentInput);
     } else if (currentInput.type === "date") {
-      handleInputByTypeDate(
+      handleInputTypeDate(
         currentInput,
         selectedDate,
         employeeStartDate,
