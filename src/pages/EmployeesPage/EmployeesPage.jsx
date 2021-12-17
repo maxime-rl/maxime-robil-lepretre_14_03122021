@@ -1,7 +1,13 @@
 import React, { useEffect } from "react";
+
+// Component
 import { EmployeesTable } from "../../components";
-import { employeesTableHead } from "../../utils/data/employeesTableHead";
+
+// Utils functions
 import checkedLocalStorage from "../../utils/divers/handleLocalStorage";
+
+// Utils datas
+import { employeesTableHead } from "../../utils/data/employeesTableHead";
 import { mockEmployees } from "../../utils/data/mockEmployees";
 
 /**

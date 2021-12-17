@@ -28,12 +28,6 @@ export const Form = styled.form`
   }
 `;
 
-export const Input = styled.input`
-  width: 98%;
-  border: 1px solid gray;
-  border-radius: 0.3rem;
-`;
-
 export const P = styled.p`
   font-size: 1.4rem;
   font-weight: 500;
@@ -127,11 +121,14 @@ export const ErrorLegalAgeMessage = styled.span`
 
 export const ModalWrapper = styled.div`
   margin: 0 0 1.5rem 0;
+
+  em {
+    font-weight: 500;
+  }
 `;
 
 export const EmployeeName = styled.p`
   margin: 2.5rem 0;
-  font-weight: 500;
 
   @media (min-width: 891px) {
     margin: 2.5rem 0 0.5rem 0;

@@ -1,13 +1,23 @@
 import React, { useState } from "react";
+
+// Components
+import { Modal } from "react-modal-mrl";
+import { Input } from "../index";
+import { Select } from "../index";
+
+// Utils functions
 import { saveToLocalStorage } from "../../../utils/divers/handleLocalStorage";
 import dateInMs from "../../../utils/divers/dateInMs";
 import capitalizeFirstLetter from "../../../utils/divers/capitalizeFirstLetter";
-import { Modal } from "react-modal-mrl";
-import { DatePicker } from "../index";
-import { Select } from "../index";
+
+// Utils datas (hard data for form selects)
 import { states } from "../../../utils/data/states";
 import { departments } from "../../../utils/data/departments";
+
+// Assets
 import closeIcon from "../../../assets/close-icon.svg";
+
+// Styles
 import * as S from "./CreateEmployeeForm.styled";
 
 /**
@@ -134,15 +144,19 @@ export default function CreateEmployeeForm() {
    * @param {object} input dateOfBirth|startDate
    * @returns {boolean}
    */
-  const checkedBirthdayInput = (input) => {
+  const checkedBirthdayInput = (input, startDateInput) => {
     let selectedDate = input.value.split("-")[0];
 
     if (selectedDate < deadline) {
       setFormErrors({
         ...formErrors,
         [input.name]: ": over 200 years... 🤔",
+        [startDateInput.name]: "",
+        legalAge: "",
       });
       showUIError(input);
+      startDateInput.style.border = "1px solid gray";
+      startDateInput.previousSibling.style.color = "#1c1c1c";
 
       return false;
     } else {
@@ -164,6 +178,7 @@ export default function CreateEmployeeForm() {
       setFormErrors({
         ...formErrors,
         [startDateInput.name]: ": under date of birth 🤔",
+        legalAge: "",
       });
       showUIError(startDateInput);
 
@@ -299,14 +314,14 @@ export default function CreateEmployeeForm() {
       checkedNameOrCityInput(e.target.lastName) &&
       checkedStreetInput(e.target.street) &&
       checkedNameOrCityInput(e.target.city) &&
-      checkedBirthdayInput(e.target.dateOfBirth) &&
+      checkedBirthdayInput(e.target.dateOfBirth, e.target.startDate) &&
       checkedStartDateInput(
         employeeBirthdayMs,
         employeeStartDateMs,
         e.target.startDate
       ) &&
-      checkedZipCodeInput(e.target.zipCode) &&
-      checkedLegalAge(employeeStartDateMs, employeeBirthdayOver18)
+      checkedLegalAge(employeeStartDateMs, employeeBirthdayOver18) &&
+      checkedZipCodeInput(e.target.zipCode)
     ) {
       setModal(!modal);
       saveToLocalStorage(formValues);
@@ -346,9 +361,9 @@ export default function CreateEmployeeForm() {
             First Name
             <S.ErrorMessage>{formErrors.firstName}</S.ErrorMessage>
           </S.P>
-          <S.Input
-            name="firstName"
-            type="text"
+          <Input
+            type={"text"}
+            name={"firstName"}
             value={formValues.firstName}
             onChange={handleInputChange}
             required={true}
@@ -358,9 +373,9 @@ export default function CreateEmployeeForm() {
           <S.P>
             Last Name<S.ErrorMessage>{formErrors.lastName}</S.ErrorMessage>
           </S.P>
-          <S.Input
-            name="lastName"
-            type="text"
+          <Input
+            type={"text"}
+            name={"lastName"}
             value={formValues.lastName}
             onChange={handleInputChange}
             required={true}
@@ -372,7 +387,8 @@ export default function CreateEmployeeForm() {
               Date of Birth
               <S.ErrorMessage>{formErrors.dateOfBirth}</S.ErrorMessage>
             </S.P>
-            <DatePicker
+            <Input
+              type={"date"}
               name={"dateOfBirth"}
               value={formValues.dateOfBirth}
               max={legalAgeDateISO}
@@ -384,7 +400,8 @@ export default function CreateEmployeeForm() {
             <S.P>
               Start Date<S.ErrorMessage>{formErrors.startDate}</S.ErrorMessage>
             </S.P>
-            <DatePicker
+            <Input
+              type={"date"}
               name={"startDate"}
               value={formValues.startDate}
               max={dateTodayISO}
@@ -398,9 +415,9 @@ export default function CreateEmployeeForm() {
           <S.P>
             Street<S.ErrorMessage>{formErrors.street}</S.ErrorMessage>
           </S.P>
-          <S.Input
-            name="street"
-            type="text"
+          <Input
+            type={"text"}
+            name={"street"}
             value={formValues.street}
             onChange={handleInputChange}
             required={true}
@@ -410,9 +427,9 @@ export default function CreateEmployeeForm() {
           <S.P>
             City<S.ErrorMessage>{formErrors.city}</S.ErrorMessage>
           </S.P>
-          <S.Input
-            name="city"
-            type="text"
+          <Input
+            type={"text"}
+            name={"city"}
             value={formValues.city}
             onChange={handleInputChange}
             required={true}
@@ -434,9 +451,9 @@ export default function CreateEmployeeForm() {
           <S.P>
             Zip Code<S.ErrorMessage>{formErrors.zipCode}</S.ErrorMessage>
           </S.P>
-          <S.Input
-            name="zipCode"
-            type="text"
+          <Input
+            name={"zipCode"}
+            type={"text"}
             value={formValues.zipCode}
             onChange={handleInputChange}
             required={true}
@@ -461,15 +478,22 @@ export default function CreateEmployeeForm() {
         show={modal}
         close={triggerModal}
         closeIcon={closeIcon}
-        title="Successful registration"
+        title="Registered employee"
       >
         <S.ModalWrapper>
           <S.EmployeeName>
-            {formValues.firstName} {formValues.lastName}
+            Name:{" "}
+            <em>
+              {formValues.firstName} {formValues.lastName}
+            </em>
           </S.EmployeeName>
           <S.EmployeeInfosWrapper>
-            <p>Start: {formValues.startDate}</p>
-            <p>Dptm: {formValues.department}</p>
+            <p>
+              Start: <em>{formValues.startDate}</em>
+            </p>
+            <p>
+              Dptm: <em>{formValues.department}</em>
+            </p>
           </S.EmployeeInfosWrapper>
           <S.LinkToCurrentEmployees to="/employee-list">
             list of employees
