@@ -2,6 +2,7 @@
 
 [![Codacy Badge](https://app.codacy.com/project/badge/Grade/64b93193cfa0497c8e6698063cc7357f)](https://www.codacy.com/gh/maxime-rl/maxime-robil-lepretre_14_03122021/dashboard?utm_source=github.com&utm_medium=referral&utm_content=maxime-rl/maxime-robil-lepretre_14_03122021&utm_campaign=Badge_Grade)
 ![license](https://badgen.net/github/license/maxime-rl/react-modal-mrl)
+![Code Style](https://img.shields.io/badge/code_style-prettier-blue.svg)
 [![Netlify Status](https://api.netlify.com/api/v1/badges/7d7a7fea-06c2-4374-9ee3-2682533c7b4a/deploy-status)](https://app.netlify.com/sites/maxime-robil-lepretre-14-oc/deploys)
 
 **_Projet n°14_** de la formation OpenClassrooms "Développeur Front End"

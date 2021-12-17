@@ -249,6 +249,48 @@ export default function CreateEmployeeForm() {
     }
   };
 
+  const handleInputByTypeText = (input) => {
+    if (input.name === "street") {
+      if (input.value.trim() === "" || streetPattern.test(input.value.trim())) {
+        hideUIError(input);
+      }
+    } else if (input.name === "zipCode") {
+      if (zipCodePattern.test(input.value.trim())) {
+        hideUIError(input);
+      }
+    } else if (
+      input.value.trim() === "" ||
+      input.value.trim().length < 3 ||
+      nameAndCityPattern.test(input.value.trim())
+    ) {
+      hideUIError(input);
+    }
+  };
+
+  const handleInputByTypeDate = (
+    input,
+    selectedDate,
+    employeeStartDate,
+    currentDateInMs,
+    employeeBirthday
+  ) => {
+    if (
+      input.name === "dateOfBirth" &&
+      selectedDate > deadline &&
+      employeeStartDate > (currentDateInMs += 567993600000)
+    ) {
+      setFormErrors({ ...formErrors, legalAge: "" });
+    } else if (
+      input.name === "startDate" &&
+      selectedDate > deadline &&
+      currentDateInMs > (employeeBirthday += 567993600000)
+    ) {
+      setFormErrors({ ...formErrors, legalAge: "" });
+    } else {
+      hideUIError(input);
+    }
+  };
+
   /**
    * Basic handle Input Change -> think about refactoring !
    * @name handleInputChange
@@ -273,42 +315,16 @@ export default function CreateEmployeeForm() {
       [currentInput.name]: capitalizeFirstLetter(currentInput.value),
     });
 
-    // Consider trying to simplify listening and error handling...
     if (currentInput.type === "text") {
-      if (currentInput.name === "street") {
-        if (
-          currentInput.value.trim() === "" ||
-          streetPattern.test(currentInput.value.trim())
-        ) {
-          hideUIError(currentInput);
-        }
-      } else if (currentInput.name === "zipCode") {
-        if (zipCodePattern.test(currentInput.value.trim())) {
-          hideUIError(currentInput);
-        }
-      } else if (
-        currentInput.value.trim() === "" ||
-        currentInput.value.trim().length < 3 ||
-        nameAndCityPattern.test(currentInput.value.trim())
-      ) {
-        hideUIError(currentInput);
-      }
+      handleInputByTypeText(currentInput);
     } else if (currentInput.type === "date") {
-      if (
-        currentInput.name === "dateOfBirth" &&
-        selectedDate > deadline &&
-        employeeStartDate > (currentDateInMs += 567993600000)
-      ) {
-        setFormErrors({ ...formErrors, legalAge: "" });
-      } else if (
-        currentInput.name === "startDate" &&
-        selectedDate > deadline &&
-        currentDateInMs > (employeeBirthday += 567993600000)
-      ) {
-        setFormErrors({ ...formErrors, legalAge: "" });
-      } else {
-        hideUIError(currentInput);
-      }
+      handleInputByTypeDate(
+        currentInput,
+        selectedDate,
+        employeeStartDate,
+        currentDateInMs,
+        employeeBirthday
+      );
     }
   };
 
