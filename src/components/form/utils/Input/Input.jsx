@@ -4,24 +4,12 @@ import * as S from "./Input.styled";
 
 /**
  * @name Input
- * @param {string} type
- * @param {string} name
- * @param {string} value
- * @param {string} min
- * @param {string} max
- * @param {func} onChange
- * @param {bool} required
- * @returns
+ * @param {object} props
+ * @returns {ReactElement}
  */
-export default function Input({
-  type,
-  name,
-  value,
-  min,
-  max,
-  onChange,
-  required,
-}) {
+export default function Input({ ...props }) {
+  const { type, name, value, min, max, onChange, required } = props;
+
   return (
     <S.Input
       type={type}

@@ -1,22 +1,17 @@
 import React, { useState } from "react";
-
 // Components
 import { Modal } from "react-modal-mrl";
 import { Input } from "../index";
 import { Select } from "../index";
-
 // Utils functions
 import { saveToLocalStorage } from "../../../utils/divers/handleLocalStorage";
 import dateInMs from "../../../utils/divers/dateInMs";
 import capitalizeFirstLetter from "../../../utils/divers/capitalizeFirstLetter";
-
 // Utils datas (hard data for form selects)
 import { states } from "../../../utils/data/states";
 import { departments } from "../../../utils/data/departments";
-
 // Assets
 import closeIcon from "../../../assets/close-icon.svg";
-
 // Styles
 import * as S from "./CreateEmployeeForm.styled";
 
@@ -250,6 +245,60 @@ export default function CreateEmployeeForm() {
   };
 
   /**
+   * @name handleInputByTypeText
+   * @param {object} input
+   */
+  const handleInputTypeText = (input) => {
+    if (input.name === "street") {
+      if (input.value.trim() === "" || streetPattern.test(input.value.trim())) {
+        hideUIError(input);
+      }
+    } else if (input.name === "zipCode") {
+      if (zipCodePattern.test(input.value.trim())) {
+        hideUIError(input);
+      }
+    } else if (
+      input.value.trim() === "" ||
+      input.value.trim().length < 3 ||
+      nameAndCityPattern.test(input.value.trim())
+    ) {
+      hideUIError(input);
+    }
+  };
+
+  /**
+   * @name handleInputByTypeDate
+   * @param {object} input
+   * @param {string} selectedDate
+   * @param {number} employeeStartDate
+   * @param {number} currentDateInMs
+   * @param {number} employeeBirthday
+   */
+  const handleInputTypeDate = (
+    input,
+    selectedDate,
+    employeeStartDate,
+    currentDateInMs,
+    employeeBirthday
+  ) => {
+    if (
+      input.name === "dateOfBirth" &&
+      selectedDate > deadline &&
+      employeeStartDate > (currentDateInMs += 567993600000)
+    ) {
+      setFormErrors({ ...formErrors, legalAge: "" });
+    } else if (
+      input.name === "startDate" &&
+      selectedDate > deadline &&
+      currentDateInMs > (employeeBirthday += 567993600000)
+    ) {
+      setFormErrors({ ...formErrors, legalAge: "" });
+    } else {
+      hideUIError(input);
+    }
+  };
+
+  /**
    * Basic handle Input Change -> think about refactoring !
    * @name handleInputChange
    * @param {event} e
@@ -273,42 +322,16 @@ export default function CreateEmployeeForm() {
       [currentInput.name]: capitalizeFirstLetter(currentInput.value),
     });
 
-    // Consider trying to simplify listening and error handling...
     if (currentInput.type === "text") {
-      if (currentInput.name === "street") {
-        if (
-          currentInput.value.trim() === "" ||
-          streetPattern.test(currentInput.value.trim())
-        ) {
-          hideUIError(currentInput);
-        }
-      } else if (currentInput.name === "zipCode") {
-        if (zipCodePattern.test(currentInput.value.trim())) {
-          hideUIError(currentInput);
-        }
-      } else if (
-        currentInput.value.trim() === "" ||
-        currentInput.value.trim().length < 3 ||
-        nameAndCityPattern.test(currentInput.value.trim())
-      ) {
-        hideUIError(currentInput);
-      }
+      handleInputTypeText(currentInput);
     } else if (currentInput.type === "date") {
-      if (
-        currentInput.name === "dateOfBirth" &&
-        selectedDate > deadline &&
-        employeeStartDate > (currentDateInMs += 567993600000)
-      ) {
-        setFormErrors({ ...formErrors, legalAge: "" });
-      } else if (
-        currentInput.name === "startDate" &&
-        selectedDate > deadline &&
-        currentDateInMs > (employeeBirthday += 567993600000)
-      ) {
-        setFormErrors({ ...formErrors, legalAge: "" });
-      } else {
-        hideUIError(currentInput);
-      }
+      handleInputTypeDate(
+        currentInput,
+        selectedDate,
+        employeeStartDate,
+        currentDateInMs,
+        employeeBirthday
+      );
     }
   };
 

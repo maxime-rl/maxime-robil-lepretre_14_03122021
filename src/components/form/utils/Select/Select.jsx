@@ -4,20 +4,12 @@ import * as S from "./Select.styled";
 
 /**
  * @name Select
- * @param {string} name
- * @param {string} value
- * @param {func} onChange
- * @param {array} dataOptions
- * @param {bool} required
+ * @param {object} props
  * @returns {ReactElement}
  */
-export default function Select({
-  name,
-  value,
-  onChange,
-  dataOptions,
-  required,
-}) {
+export default function Select({ ...props }) {
+  const { name, value, onChange, required, dataOptions } = props;
+
   return (
     <S.Select name={name} value={value} onChange={onChange} required={required}>
       <option value="">-- select a {name} --</option>
